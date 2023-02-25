@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SafeSpending",
-    "slug": "SafeSpending",
+    "name": "monkeyCode",
+    "slug": "monkeyCode",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
