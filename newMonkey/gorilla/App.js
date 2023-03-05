@@ -1,5 +1,5 @@
 
-import { Button, StyleSheet, Text, View, TextInput} from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
 import Transactions from "./components/Transactions"
 import { useState} from "react"
 export default function App() {
@@ -27,7 +27,7 @@ export default function App() {
         <Transactions visible = {modalIsVisible}></Transactions>
         <TextInput style = {styles.textInput} placeholder = "Your Goal" onChangeText={goalInputHandler} />
         <Button title = "Add Goal" onPress = {(addGoalHandler)} />
-        <Button title = "+" onPress = {startTransactionHandler} ></Button>
+        <Button title = "transactions" onPress = {startTransactionHandler} ></Button>
       </View>
       <View style = {styles.goalContainer}>
         {courseGoals.map((goal) => <Text key = {goal}>{goal}</ Text>)}

@@ -1,5 +1,5 @@
-import {StyleSheet, Text, View, Pressable, Button, Modal, props, } from 'react-native'
-function Transactions(){
+import {StyleSheet, Text, View, Button, Modal, props, } from 'react-native'
+function Transactions(props){
     return(
         <Modal visible = {props.visible} animationType = "slide">
             <View style = {styles.appContainer}>
