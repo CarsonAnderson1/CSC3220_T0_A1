@@ -1,14 +1,17 @@
 
 import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
-import Transactions from "./components/Transactions"
+import Transactions from "./components/Transactions.js"
 import { useState} from "react"
-export default function App() {
+export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [enteredGoalText, setEnteredText] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
-  function startTransactionHandler(){
+  function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
+  }
+  function closeTransactionHandler(){ // Closes the "Transactions" Page
+    setModalIsVisible(false);
   }
   function goalInputHandler(enteredText){
     setEnteredText(enteredText);
@@ -24,10 +27,23 @@ export default function App() {
   return (
     <View style={styles.appContainer}>
       <View style = {styles.inputContainer}>
-        <Transactions visible = {modalIsVisible}></Transactions>
-        <TextInput style = {styles.textInput} placeholder = "Your Goal" onChangeText={goalInputHandler} />
-        <Button title = "Add Goal" onPress = {(addGoalHandler)} />
-        <Button title = "transactions" onPress = {startTransactionHandler} ></Button>
+        <Transactions 
+          visible = {modalIsVisible} 
+          onCancel = {closeTransactionHandler}> 
+        </Transactions>
+        <TextInput 
+          style = {styles.textInput} 
+          placeholder = "Your Goal" 
+          onChangeText={goalInputHandler} 
+        />
+        <Button 
+          title = "Add Goal" 
+          onPress = {(addGoalHandler)}
+         />
+        <Button 
+          title = "transactions" 
+          onPress = {startTransactionHandler} 
+        ></Button>
       </View>
       <View style = {styles.goalContainer}>
         {courseGoals.map((goal) => <Text key = {goal}>{goal}</ Text>)}
