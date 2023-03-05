@@ -2,8 +2,9 @@ import {StyleSheet, Text, View, Button, Modal, props, } from 'react-native'
 function Transactions(props){
     return(
         <Modal visible = {props.visible} animationType = "slide">
+            <Button title = "back" onPress = {props.onCancel}> </Button>
             <View style = {styles.appContainer}>
-                <Text > SafeSpending </Text>
+                <Text style = {styles.title} > SafeSpending </Text>
                 <Text > 2000 </Text>
                 <Button title = "+" > </Button>
             </View>
@@ -12,12 +13,21 @@ function Transactions(props){
     )
 };
 const styles = StyleSheet.create({
+    title:{
+      flex: 1,
+      fontSize: 30,
+      alignItems: "center",
+    },
+    backButton:{
+      flex: 2,
+      
+    },
     appContainer: {
       flex: 1,
       paddingTop: 50,
       paddingHorizontal: 16
     },
-    inputContainer: {
+    transactionContainer: {
       flex: 1,
       flexDirection: "row",
       justifyContent: "space-between",
@@ -33,7 +43,7 @@ const styles = StyleSheet.create({
       marginRight: 8,
       padding: 8
     },
-    goalContainer: {
+    transactionContainer: {
       flex: 5
     }
   });
