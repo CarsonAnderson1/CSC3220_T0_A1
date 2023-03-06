@@ -1,67 +1,65 @@
-import { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Button, StyleSheet, Text, View, Modal } from 'react-native';
 
-export default function App() {
-  const categories = useState([]);
-
+function Categories(props) {
   return (
-    <View style={styles.appContainer}>
+    <Modal visible={props.visible} animationType="slide">
+        <View style={styles.appContainer}>
+            <View style={styles.homeButton}>
+                <Button
+                    title="Home"
+                    color='#474745'
+                    onPress={props.onCancel}
+                />
+            </View>
 
-      <View style={styles.homeButton}>
-        <Button
-          title="Home"
-          color='#474745'
-        />
-      </View>
-
-      <View style={styles.title}>
-        <Text style={{fontSize: 50}}>SafeSpending</Text>
-      </View>
-
-      <View style={styles.rowContainer}>
-        <View style={styles.buttonsContainer}>
-          <View style={styles.addButton}>
-            <Button
-              title="+"
-              color='#10eb18'
-            />
-          </View>
-
-          <View style={styles.removeButton}>
-            <Button
-              title="-"
-              color='#e30707'
-            />
-          </View>
+        <View style={styles.title}>
+            <Text style={{fontSize: 50}}>SafeSpending</Text>
         </View>
-        
-        <View style={styles.scrollAdjusts}>
-          <ScrollView style={styles.scrollView}>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-          </ScrollView>
-        </View>
-      </View>
 
-    </View>
-  );
-}
+        <View style={styles.rowContainer}>
+            <View style={styles.buttonsContainer}>
+                <View style={styles.addButton}>
+                    <Button
+                        title="+"
+                        color='#10eb18'
+                    />
+                </View>
+
+                <View style={styles.removeButton}>
+                    <Button
+                        title="-"
+                        color='#e30707'
+                    />
+                </View>
+        </View>
+
+            <View style={styles.scrollAdjusts}>
+                <ScrollView style={styles.scrollView}>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                </ScrollView>
+                </View>
+            </View>
+        </View>
+    </Modal>
+  )
+};
 
 const styles = StyleSheet.create({
   appContainer: {
@@ -108,3 +106,5 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   }
 });
+
+export default Categories;
