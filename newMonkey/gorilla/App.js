@@ -1,16 +1,26 @@
 import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
 import Transactions from "./components/Transactions.js"
+import Categories from "./components/Categories.js"
 import { useState} from "react"
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [categoryIsVisible, setCategoryIsVisible] = useState(false);
   const [enteredGoalText, setEnteredText] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
+    
   }
   function closeTransactionHandler(){ // Closes the "Transactions" Page
     setModalIsVisible(false);
+  }
+  function startCategoriesHandler(){ // Opens the "Categories" Page
+    setCategoryIsVisible(true);
+    
+  }
+  function closeCategoriesHandler(){ // Closes the "Categories" Page
+    setCategoryIsVisible(false);
   }
   function goalInputHandler(enteredText){
     setEnteredText(enteredText);
@@ -30,6 +40,10 @@ export default function App(props) {
           visible = {modalIsVisible} 
           onCancel = {closeTransactionHandler}> 
         </Transactions>
+        <Categories
+          visibleC = {categoryIsVisible}
+          onCancelC = {closeCategoriesHandler}>
+        </Categories>
         <TextInput 
           style = {styles.textInput} 
           placeholder = "Your Goal" 
@@ -42,6 +56,10 @@ export default function App(props) {
         <Button 
           title = "transactions" 
           onPress = {startTransactionHandler} 
+        ></Button>
+        <Button
+          title = "Categories"
+          onPress={startCategoriesHandler}
         ></Button>
       </View>
       <View style = {styles.goalContainer}>
@@ -61,7 +79,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    flexDirection: "row",
+    //Change this to view the whole thing as either row or column
+    flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 24,
