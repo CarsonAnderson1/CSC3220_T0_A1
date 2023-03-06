@@ -1,6 +1,5 @@
 import {StyleSheet, Text, View, Button, Modal, props} from 'react-native'
 import {useState} from "react"
-import TransactionsCreate from "./components/TransactionsCreate"
 function Transactions(props){
   const [tranIsVisible, setTranIsVisible] = useState(false);
 
