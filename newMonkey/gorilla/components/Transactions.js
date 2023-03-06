@@ -13,7 +13,10 @@ function Transactions(props){
 
     return(
         <Modal visible = {props.visible} animationType = "slide">
-           
+           <CreateTransaction
+            visible = {tranIsVisible}
+            onCancel = {closeNewTransactionHandler}>
+           </CreateTransaction>
             <Button title = "back" onPress = {props.onCancel}> </Button>
             <View style = {styles.appContainer}>
                 <Text style = {styles.title} > SafeSpending </Text>
