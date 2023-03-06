@@ -1,24 +1,17 @@
-import {StyleSheet, Text, View, Button, Modal, props} from 'react-native'
-import {useState} from "react"
-import CreateTransaction from './TransactionsCreate';
-function Transactions(props){
-  const [tranIsVisible, setTranIsVisible] = useState(false);
-
-    function newCreateTransactionHandler(){ // Goes to "TransactionsCreate" page
-      setTranIsVisible(true);
-    }
-    function closeNewTransactionHandler(){ // Closes "TransactionsCreate" page
-      setTranIsVisible(false);
-    }
-
+import {StyleSheet, Text, View, Button, Modal, props, TextInput } from 'react-native'
+function closeCreateTransactionHandler(){ // Closes the "Transactions" Page
+    setModalIsVisible(false);
+  }
+function createTransaction(props){
     return(
         <Modal visible = {props.visible} animationType = "slide">
-           
-            <Button title = "back" onPress = {props.onCancel}> </Button>
+            <Button title = "X" onPress = {props.onCancel}> </Button>
             <View style = {styles.appContainer}>
-                <Text style = {styles.title} > SafeSpending </Text>
-                <Text > 2000 </Text>
-                <Button title = "+" > onPress = {newCreateTransactionHandler}</Button>
+                <Text style = {styles.transactionContainer} > Create Transaction </Text>
+                <TextInput> style = {styles.textInput} placeholder = "Input Date" </TextInput>
+                <TextInput> style = {styles.textInput} placeholder = "Input Amount" </TextInput>
+                <TextInput> style = {styles.textInput} placeholder = "Input Category" </TextInput>
+                <TextInput> style = {styles.textInput} placeholder = "Input Note" </TextInput>
             </View>
         </Modal>
         
@@ -60,4 +53,4 @@ const styles = StyleSheet.create({
     }
   });
   
-export default Transactions;
+export default createTransaction;
