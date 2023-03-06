@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, Modal } from 'react-native';
 
 export default function App() {
   const categories = useState([]);
-  const [modalIsVisible, setModalIsVisible] = useState(false);
 
   return (
     <View style={styles.appContainer}>
