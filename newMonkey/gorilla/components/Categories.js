@@ -3,13 +3,13 @@ import { Button, StyleSheet, Text, View, Modal } from 'react-native';
 
 function Categories(props) {
   return (
-    <Modal visible={props.visible} animationType="slide">
+    <Modal visible={props.visibleC} animationType="slide">
         <View style={styles.appContainer}>
             <View style={styles.homeButton}>
                 <Button
                     title="Home"
                     color='#474745'
-                    onPress={props.onCancel}
+                    onPress={props.onCancelC}
                 />
             </View>
 

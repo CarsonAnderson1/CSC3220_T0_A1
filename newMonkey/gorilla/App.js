@@ -5,21 +5,23 @@ import Categories from "./components/Categories.js"
 import { useState} from "react"
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  //const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [categoryIsVisible, setCategoryIsVisible] = useState(false);
   const [enteredGoalText, setEnteredText] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
+    
   }
   function closeTransactionHandler(){ // Closes the "Transactions" Page
     setModalIsVisible(false);
   }
   function startCategoriesHandler(){ // Opens the "Categories" Page
-    setModalIsVisible(true);
+    setCategoryIsVisible(true);
+    
   }
   function closeCategoriesHandler(){ // Closes the "Categories" Page
-    setModalIsVisible(false);
+    setCategoryIsVisible(false);
   }
   function goalInputHandler(enteredText){
     setEnteredText(enteredText);
@@ -40,8 +42,8 @@ export default function App(props) {
           onCancel = {closeTransactionHandler}> 
         </Transactions>
         <Categories
-          visible = {modalIsVisible}
-          onCancel = {closeCategoriesHandler}>
+          visibleC = {categoryIsVisible}
+          onCancelC = {closeCategoriesHandler}>
         </Categories>
         <TextInput 
           style = {styles.textInput} 
