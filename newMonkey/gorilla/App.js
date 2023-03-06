@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Button from 'react-bootstrap/Button';
-
-
-=======
->>>>>>> master
-
 import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
 import Transactions from "./components/Transactions.js"
 import { useState} from "react"
@@ -33,11 +24,6 @@ export default function App(props) {
   }
 
   return (
-<<<<<<< HEAD
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app</Text>
-      <StatusBar style="auto" />
-=======
     <View style={styles.appContainer}>
       <View style = {styles.inputContainer}>
         <Transactions 
@@ -61,7 +47,6 @@ export default function App(props) {
       <View style = {styles.goalContainer}>
         {courseGoals.map((goal) => <Text key = {goal}>{goal}</ Text>)}
       </View>
->>>>>>> master
     </View>
   );
 }

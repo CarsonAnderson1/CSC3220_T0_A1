@@ -8,10 +8,7 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
-<<<<<<< HEAD
-=======
     <orderEntry type="jdk" jdkName="Android API 33, extension level 4 Platform" jdkType="Android SDK" />
->>>>>>> master
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
