@@ -1,66 +1,53 @@
-//import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { ScrollView } from 'react-native';
-import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
-  const categories = useState([]);
+import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
+import Transactions from "./components/Transactions.js"
+import { useState} from "react"
+export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
+  const [enteredGoalText, setEnteredText] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  function startTransactionHandler(){ // Opens the "Transactions" Page
+    setModalIsVisible(true);
+  }
+  function closeTransactionHandler(){ // Closes the "Transactions" Page
+    setModalIsVisible(false);
+  }
+  function goalInputHandler(enteredText){
+    setEnteredText(enteredText);
+  }
+  function addGoalHandler(){
+    console.log(enteredGoalText);
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      enteredGoalText,
+    ])
+  }
 
   return (
     <View style={styles.appContainer}>
-
-      <View style={styles.homeButton}>
-        <Button
-          title="Home"
-          color='#474745'
+      <View style = {styles.inputContainer}>
+        <Transactions 
+          visible = {modalIsVisible} 
+          onCancel = {closeTransactionHandler}> 
+        </Transactions>
+        <TextInput 
+          style = {styles.textInput} 
+          placeholder = "Your Goal" 
+          onChangeText={goalInputHandler} 
         />
+        <Button 
+          title = "Add Goal" 
+          onPress = {(addGoalHandler)}
+         />
+        <Button 
+          title = "transactions" 
+          onPress = {startTransactionHandler} 
+        ></Button>
       </View>
-
-      <View style={styles.title}>
-        <Text style={{fontSize: 50}}>SafeSpending</Text>
+      <View style = {styles.goalContainer}>
+        {courseGoals.map((goal) => <Text key = {goal}>{goal}</ Text>)}
       </View>
-
-      <View style={styles.rowContainer}>
-        <View style={styles.buttonsContainer}>
-          <View style={styles.addButton}>
-            <Button
-              title="+"
-              color='#10eb18'
-            />
-          </View>
-
-          <View style={styles.removeButton}>
-            <Button
-              title="-"
-              color='#e30707'
-            />
-          </View>
-        </View>
-        
-        <View style={styles.scrollAdjusts}>
-          <ScrollView style={styles.scrollView}>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-            <Text style={{fontSize: 30}}>"Testing"</Text>
-          </ScrollView>
-        </View>
-      </View>
-
     </View>
   );
 }
@@ -68,45 +55,26 @@ export default function App() {
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    paddingTop: 50,
+    paddingHorizontal: 16
   },
-  rowContainer: {
-    flexDirection: 'row-reverse',
+  inputContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: "#cccccc"
   },
-  buttonsContainer: {
-    flexDirection: 'column',
+  textInput: {
+    borderWidth: 1,
+    borderColor: "#cccccc",
+    width: "70%",
+    marginRight: 8,
+    padding: 8
   },
-  title: {
-    alignItems: 'center',
-  },
-  homeButton: {
-    alignItems: 'flex-start',
-    paddingTop: 35,
-    paddingLeft: 15,
-  },
-  scrollView: {
-    backgroundColor: '#d4d9d6',
-    marginHorizontal: 20,
-    borderColor: '#080808',
-    borderWidth: 2,
-  },
-  scrollAdjusts: {
-    height: 420,
-    width: 390,
-    paddingTop: 40,
-    paddingRight: 10,
-    paddingLeft: 40,
-  },
-  addButton: {
-    alignItems: 'flex-end',
-    paddingTop: 115,
-    paddingRight: 35,
-    paddingLeft: 5,
-  },
-  removeButton: {
-    alignItems: 'flex-end',
-    paddingTop: 55,
-    paddingRight: 35,
-    paddingLeft: 5,
+  goalContainer: {
+    flex: 5
   }
 });
