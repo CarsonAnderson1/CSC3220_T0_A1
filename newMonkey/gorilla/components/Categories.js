@@ -14,7 +14,7 @@ function Categories(props) {
             </View>
 
         <View style={styles.title}>
-            <Text style={{fontSize: 50}}>SafeSpending</Text>
+          <Text style={{fontSize: 50}}>SafeSpending</Text>
         </View>
 
         <View style={styles.rowContainer}>
@@ -32,9 +32,9 @@ function Categories(props) {
                         color='#e30707'
                     />
                 </View>
-        </View>
+            </View>
 
-            <View style={styles.scrollAdjusts}>
+              <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
                     <Text style={{fontSize: 30}}>"Testing"</Text>
                     <Text style={{fontSize: 30}}>"Testing"</Text>
@@ -54,8 +54,8 @@ function Categories(props) {
                     <Text style={{fontSize: 30}}>"Testing"</Text>
                     <Text style={{fontSize: 30}}>"Testing"</Text>
                 </ScrollView>
-                </View>
-            </View>
+              </View>
+          </View>
         </View>
     </Modal>
   )
