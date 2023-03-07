@@ -60,15 +60,6 @@ export default function App(props) {
           visibleC = {categoryIsVisible}
           onCancelC = {closeCategoriesHandler}>
         </Categories>
-        <TextInput 
-          style = {styles.textInput} 
-          placeholder = "Your Goal" 
-          onChangeText={goalInputHandler} 
-        />
-        <Button 
-          title = "Add Goal" 
-          onPress = {(addGoalHandler)}
-         />
         <Button 
           title = "transactions" 
           onPress = {startTransactionHandler} 
