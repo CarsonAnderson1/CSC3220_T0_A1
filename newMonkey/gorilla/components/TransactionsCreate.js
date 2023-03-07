@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props, TextInput,Font} from 'react-native'
 import {useState} from "react"
 function CreateTransaction(props){
   const[catVisible, setCatVisible] = useState('');
@@ -24,10 +24,23 @@ function CreateTransaction(props){
   
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
-            <View styles = {styles.appContainer}>
-              <Button style = {styles.backButton} title = "back" onPress = {props.onCancelT} color = 'grey' > </Button>
-              <View styles = {styles.inputContainer}>
-                <Text>
+          <View style = {styles.appContainer}>
+            <View style = {styles.buttons}>
+              <View style={styles.backButton}>
+                <Button
+                  color = "red"
+                  title = "cancel"
+                  onPress={props.onCancelT}
+                />
+              </View>
+              <View style = {styles.confirmButton}>
+                <Button title = "Confirm Transaction" color= "green" style = {styles.addButton} width = "40%"> </Button>
+              </View>
+            </View>
+            
+            <View style = {styles.appContainer}>
+              <View style = {styles.box}>
+                <Text style = {styles.textStyle}>
                   Input Category
                 </Text>
                 <TextInput 
@@ -36,34 +49,38 @@ function CreateTransaction(props){
                   onChangeText={handleCat}
                 />
               </View>
-
-              <Text>
-                Input Money Amount
-              </Text>
-              <TextInput 
-                style = {styles.textInput} 
-                placeholder="ex. 100.49" 
-                onChangeText={handleMon}
-              />
-              <Text>
-                Input Date
-              </Text>
-              <TextInput 
-                style = {styles.textInput} 
-                placeholder="ex. 03/06/2023" 
-                onChangeText={handleDate}
-              />
-              <Text>
-                Input Note
-              </Text>
-              <TextInput 
-                style = {styles.textInput} 
-                placeholder="ex. dinner party" 
-                onChangeText={handleNote}
-              />
+                <View style = {styles.box}>
+                <Text style = {styles.textStyle}>
+                  Input Money Amount  
+                </Text>
+                <TextInput 
+                  style = {styles.textInput} 
+                  placeholder="ex. 100.49" 
+                  onChangeText={handleMon}
+                />
+              </View>
+              <View style = {styles.box}>
+                <Text style = {styles.textStyle}>
+                  Input Date
+                </Text>
+                <TextInput 
+                  style = {styles.textInput} 
+                  placeholder="ex. 03/06/2023" 
+                  onChangeText={handleDate}
+                />
+              </View>
+              <View style = {styles.box}>
+                <Text style = {styles.textStyle}>
+                  Input Note
+                </Text>
+                <TextInput 
+                  style = {styles.textInput} 
+                  placeholder="ex. dinner party" 
+                  onChangeText={handleNote}
+                />
+              </View>  
             </View>
-            <Button title = "Add Transaction" color= "grey" style = {styles.addButton}> </Button>
-          
+            </View>
         </Modal>
         
     )
@@ -72,13 +89,13 @@ function CreateTransaction(props){
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 10,
     paddingHorizontal: 16,
   },
   backButton: {
     flex: 2,
   },
-  inputContainer: {
+  buttons: {
     flexDirection: "row",
   },
   textInput: {
@@ -88,6 +105,26 @@ const styles = StyleSheet.create({
     marginRight: 8,
     padding: 8,
   },
+  backButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 15,
+  },
+  confirmButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 30,
+  },
+  textStyle:{
+    fontSize: 14,
+    fontFamily: "normal",
+    color: "black",
+  },
+  box:{
+    paddingBottom: 10,
+  }
   
 });
 export default CreateTransaction;
