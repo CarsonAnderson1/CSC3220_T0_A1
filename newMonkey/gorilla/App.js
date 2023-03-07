@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   inputContainer: {
-    flex: .35,
+    flex: 1,
     backgroundColor: 'yellow',
     flexDirection: 'column',
   },
@@ -100,7 +100,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   CategoriesContainer: {
-    flex: 3,
+    flex: 2,
+    backgroundColor: 'red',
   },
   CategoriesButton: {
     position: 'relative',
