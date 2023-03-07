@@ -1,13 +1,30 @@
-import {StyleSheet, Text, View, Button, Modal, props, } from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props} from 'react-native'
+import {useState} from "react"
+import CreateTransaction from './TransactionsCreate';
 function Transactions(props){
+  const [tranIsVisible, setTranIsVisible] = useState(false);
+
+    function newCreateTransactionHandler(){ // Goes to "TransactionsCreate" page
+      setTranIsVisible(true);
+      {props.onCancel};
+      
+    }
+    function closeNewTransactionHandler(){ // Closes "TransactionsCreate" page
+      setTranIsVisible(false);
+    }
+
     return(
         <Modal visible = {props.visible} animationType = "slide">
-            <Button title = "back" onPress = {props.onCancel}> </Button>
-            <View style = {styles.appContainer}>
-                <Text style = {styles.title} > SafeSpending </Text>
-                <Text > 2000 </Text>
-                <Button title = "+" > </Button>
-            </View>
+          <CreateTransaction
+            visibleT = {tranIsVisible}
+            onCancelT = {closeNewTransactionHandler}>
+          </CreateTransaction>
+          <Button title = "back" onPress = {props.onCancel}> </Button>
+          <View style = {styles.appContainer}>
+            <Text style = {styles.title} > SafeSpending </Text>
+            <Text > 2000 </Text>
+            <Button title = "+" onPress = {newCreateTransactionHandler}> </Button>
+          </View>
         </Modal>
         
     )
@@ -17,6 +34,7 @@ const styles = StyleSheet.create({
       flex: 1,
       fontSize: 30,
       alignItems: "center",
+      fontWeight: 600,
     },
     backButton:{
       flex: 2,
