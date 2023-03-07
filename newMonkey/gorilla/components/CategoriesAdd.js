@@ -4,6 +4,19 @@ function AddCategory(props){
     return(
         <Modal visible = {props.visibleA} animationType = "slide">
           <Button title = "back" onPress = {props.onCancelA} color = 'grey'> </Button>
+          <View style = {styles.appContainer}>
+            <View styles = {styles.boxes}>
+              <Text styles>
+                Input Category to Create
+              </Text>
+              <TextInput 
+                style = {styles.textInput} 
+                placeholder ="ex. groceries" 
+                
+              />
+              <Button title = "confirm" color = 'grey'> </Button>
+            </View>
+          </View>
         </Modal>
         
     )
