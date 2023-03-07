@@ -17,16 +17,16 @@ function CreateTransaction(props){
   function handleNote(enteredNoteText){
     setNoteVisible(enteredNoteText);
   }
-  }
+  
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
           <View style = {styles.appContainer}> 
             <Button title = "back" onPress = {props.onCancelT}> </Button>
             <View styles = {styles.inputContainer}>
               <TextInput style = {styles.textInput} placeholder ="Input Category" onChangeText={handleCat}> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Money Spent"> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Date"> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Note"> </TextInput>
+              <TextInput style = {styles.textInput} placeholder="Input Money Spent" onChangeText={handleMon}> </TextInput>
+              <TextInput style = {styles.textInput} placeholder="Input Date" onChangeText={handleDate}> </TextInput>
+              <TextInput style = {styles.textInput} placeholder="Input Note" onChangeText={handleNote}> </TextInput>
             </View>
           </View>
         </Modal>
