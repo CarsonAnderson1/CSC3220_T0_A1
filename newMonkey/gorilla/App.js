@@ -1,4 +1,3 @@
-
 import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
 import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
@@ -69,6 +68,8 @@ export default function App(props) {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   appContainer: {
