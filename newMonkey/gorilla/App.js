@@ -4,11 +4,10 @@ import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-na
 import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
 import { useState} from "react"
+
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
-  const [enteredGoalText, setEnteredText] = useState('');
-  const [courseGoals, setCourseGoals] = useState([]);
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
@@ -23,16 +22,6 @@ export default function App(props) {
   }
   function closeCategoriesHandler(){ // Closes the "Categories" Page
     setCategoryIsVisible(false);
-  }
-  function goalInputHandler(enteredText){
-    setEnteredText(enteredText);
-  }
-  function addGoalHandler(){
-    console.log(enteredGoalText);
-    setCourseGoals((currentCourseGoals) => [
-      ...currentCourseGoals,
-      enteredGoalText,
-    ])
   }
 
   return (
@@ -60,16 +49,12 @@ export default function App(props) {
           visibleC = {categoryIsVisible}
           onCancelC = {closeCategoriesHandler}>
         </Categories>
-        <Button 
-          title = "transactions" 
-          onPress = {startTransactionHandler} 
-        ></Button>
         <Button
           title = "Categories"
           onPress={startCategoriesHandler}
         ></Button>
       </View>
-      <View style={styles.CatigoriesContainer}>
+      <View style={styles.CategoriesContainer}>
 
       </View>
     </View>
@@ -96,6 +81,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: .35,
+    backgroundColor: 'yellow',
     flexDirection: 'column',
   },
   MoneyDisplay: {
@@ -113,7 +99,10 @@ const styles = StyleSheet.create({
     justifyContent:'flex-end',
     alignItems: 'flex-end',
   },
-  CatigoriesContainer: {
-    flex: 3
-  }
+  CategoriesContainer: {
+    flex: 3,
+  },
+  CategoriesButton: {
+    position: 'relative',
+  },
 });
