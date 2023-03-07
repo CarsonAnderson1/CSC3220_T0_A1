@@ -5,6 +5,8 @@ function CreateTransaction(props){
   const[monVisible, setMonVisible] = useState('');
   const[dateVisible, setDateVisible] = useState('');
   const[noteVisible, setNoteVisible] = useState('');
+  const[transaction,setTransaction] = useState([]);
+
   function handleCat(enteredCatText){
     setCatVisible(enteredCatText);
   }
@@ -18,15 +20,48 @@ function CreateTransaction(props){
     setNoteVisible(enteredNoteText);
   }
   
+
+  
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
+          <Button title = "back" onPress = {props.onCancelT} color = 'grey'> </Button>
           <View style = {styles.appContainer}> 
-            <Button title = "back" onPress = {props.onCancelT}> </Button>
             <View styles = {styles.inputContainer}>
-              <TextInput style = {styles.textInput} placeholder ="Input Category" onChangeText={handleCat}> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Money Spent" onChangeText={handleMon}> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Date" onChangeText={handleDate}> </TextInput>
-              <TextInput style = {styles.textInput} placeholder="Input Note" onChangeText={handleNote}> </TextInput>
+              <View styles = {styles.boxes}>
+              <Text styles>
+                Input Category
+              </Text>
+              <TextInput 
+                style = {styles.textInput} 
+                placeholder ="ex. groceries" 
+                onChangeText={handleCat}
+              />
+              </View>
+              <Text styles>
+                Input Money Amount
+              </Text>
+              <TextInput 
+                style = {styles.textInput} 
+                placeholder="ex. 100.49" 
+                onChangeText={handleMon}
+              />
+              <Text styles>
+                Input Date
+              </Text>
+              <TextInput 
+                style = {styles.textInput} 
+                placeholder="ex. 03/06/2023" 
+                onChangeText={handleDate}
+              />
+              <Text styles>
+                Input Note
+              </Text>
+              <TextInput 
+                style = {styles.textInput} 
+                placeholder="ex. dinner party" 
+                onChangeText={handleNote}
+              />
+              <Button width = "10%" title = "Add Transaction" color= "grey"> </Button>
             </View>
           </View>
         </Modal>
@@ -48,7 +83,7 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     paddingTop: 50,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   transactionContainer: {
     flex: 1,
@@ -77,7 +112,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: "#cccccc"
+    borderBottomColor: "#cccccc",
   },
+  boxes:{
+    flex: 2,
+    flexDirection: "row",
+
+  },
+  addButton:{
+    width
+  }
 });
 export default CreateTransaction;
