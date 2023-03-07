@@ -1,6 +1,6 @@
 
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, Modal, props, ScrollView} from 'react-native';
 import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
 import { useState} from "react"
@@ -28,23 +28,22 @@ export default function App(props) {
     <View style={styles.appContainer}>
       <StatusBar style='auto'/>
       <View style={styles.TitleContainer}>
-        <Text style={styles.Title}>Welcome</Text>
+        <Text style={styles.Title}>SafeSpending</Text>
       </View>
-      <View style = {styles.inputContainer}>
         <Transactions 
           visible = {modalIsVisible} 
           onCancel = {closeTransactionHandler}> 
         </Transactions>
         <View style={styles.MoneyDisplay}>
-          <Text>2000</Text>
-        </View>
-        <View style={styles.InputButton}>
+          <Text style = {styles.Money}>$2000.00</Text>
           <Button
             style={styles.InputButton}
-            title = "transactions" 
+            title = "+/-" 
             onPress = {startTransactionHandler} 
+            color = "black"
           ></Button>
         </View>
+
         <Categories
           visibleC = {categoryIsVisible}
           onCancelC = {closeCategoriesHandler}>
@@ -53,9 +52,31 @@ export default function App(props) {
           title = "Categories"
           onPress={startCategoriesHandler}
         ></Button>
-      </View>
       <View style={styles.CategoriesContainer}>
-
+      <View style={styles.scrollAdjusts}>
+                <ScrollView style={styles.scrollView}>
+                  <View style = {styles.CategoryMoney}>
+                    <Text style={{fontSize: 20}}>Groceries</Text>
+                    <Text style={{fontSize: 20}}> $20 </Text>
+                  </View>
+                  <View style = {styles.CategoryMoney}>
+                    <Text style={{fontSize: 20}}>Rent</Text>
+                    <Text style={{fontSize: 20}}> $50 </Text>
+                  </View>
+                  <View style = {styles.CategoryMoney}>
+                    <Text style={{fontSize: 20}}>Utilities</Text>
+                    <Text style={{fontSize: 20}}> $100 </Text>
+                  </View>
+                  <View style = {styles.CategoryMoney}>
+                    <Text style={{fontSize: 20}}>Dinners</Text>
+                    <Text style={{fontSize: 20}}> $200</Text>
+                  </View>
+                  <View style = {styles.CategoryMoney}>
+                    <Text style={{fontSize: 20}}>Gambling</Text>
+                    <Text style={{fontSize: 20}}> $2000 </Text>
+                  </View>
+                </ScrollView>
+                </View>
       </View>
     </View>
   );
@@ -79,21 +100,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
-  inputContainer: {
-    flex: 1,
-    backgroundColor: 'yellow',
-    flexDirection: 'column',
-  },
+ 
   MoneyDisplay: {
     justifyContent:'flex-start',
     flex: 1,
-    //Change this to view the whole thing as either row or column
-    flexDirection: "column",
-    justifyContent: "space-between",
+    flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 24,
     borderBottomWidth: 1,
     borderBottomColor: "#cccccc"
+  },
+  Money: {
+    fontSize: 50,
+    fontWeight: "medium",
   },
   InputButton: {
     justifyContent:'flex-end',
@@ -101,9 +121,15 @@ const styles = StyleSheet.create({
   },
   CategoriesContainer: {
     flex: 2,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
   },
   CategoriesButton: {
     position: 'relative',
   },
+  CategoryMoney: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+
+  }
 });

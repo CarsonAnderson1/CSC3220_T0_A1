@@ -24,20 +24,20 @@ function CreateTransaction(props){
   
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
-          <Button title = "back" onPress = {props.onCancelT} color = 'grey'> </Button>
-          <View style = {styles.appContainer}> 
-            <View styles = {styles.inputContainer}>
-              <View styles = {styles.boxes}>
-              <Text styles>
-                Input Category
-              </Text>
-              <TextInput 
-                style = {styles.textInput} 
-                placeholder ="ex. groceries" 
-                onChangeText={handleCat}
-              />
+            <View styles = {styles.appContainer}>
+              <Button style = {styles.backButton} title = "back" onPress = {props.onCancelT} color = 'grey' > </Button>
+              <View styles = {styles.inputContainer}>
+                <Text>
+                  Input Category
+                </Text>
+                <TextInput 
+                  style = {styles.textInput} 
+                  placeholder ="ex. groceries" 
+                  onChangeText={handleCat}
+                />
               </View>
-              <Text styles>
+
+              <Text>
                 Input Money Amount
               </Text>
               <TextInput 
@@ -45,7 +45,7 @@ function CreateTransaction(props){
                 placeholder="ex. 100.49" 
                 onChangeText={handleMon}
               />
-              <Text styles>
+              <Text>
                 Input Date
               </Text>
               <TextInput 
@@ -53,7 +53,7 @@ function CreateTransaction(props){
                 placeholder="ex. 03/06/2023" 
                 onChangeText={handleDate}
               />
-              <Text styles>
+              <Text>
                 Input Note
               </Text>
               <TextInput 
@@ -61,61 +61,33 @@ function CreateTransaction(props){
                 placeholder="ex. dinner party" 
                 onChangeText={handleNote}
               />
-              <Button title = "Add Transaction" color= "grey" style = {styles.addButton}> </Button>
             </View>
-          </View>
+            <Button title = "Add Transaction" color= "grey" style = {styles.addButton}> </Button>
+          
         </Modal>
         
     )
 };
 
 const styles = StyleSheet.create({
-  backButton:{
-    flex: 2,
-    
-  },
   appContainer: {
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 16,
   },
-  transactionContainer: {
-    flex: 1,
+  backButton: {
+    flex: 2,
+  },
+  inputContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#cccccc"
   },
   textInput: {
     borderWidth: 1,
     borderColor: "#cccccc",
     width: "70%",
     marginRight: 8,
-    padding: 8
+    padding: 8,
   },
-  transactionContainer: {
-    flex: 5
-  },
-  inputContainer: {
-    flex: 1,
-    //Change this to view the whole thing as either row or column
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#cccccc",
-  },
-  boxes:{
-    flex: 2,
-    flexDirection: "row",
-
-  },
-  addButton:{
-    paddingTop: 35,
-    paddingLeft: 15,
-  }
+  
 });
 export default CreateTransaction;
