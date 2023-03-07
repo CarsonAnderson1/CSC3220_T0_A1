@@ -19,31 +19,59 @@ function Transactions(props){
             visibleT = {tranIsVisible}
             onCancelT = {closeNewTransactionHandler}>
           </CreateTransaction>
+          <View style = {transtyles.backButton}>
           <Button title = "back" onPress = {props.onCancel}> </Button>
-          <View style = {styles.appContainer}>
-            <Text style = {styles.title} > SafeSpending </Text>
-            <Text > 2000 </Text>
-            <Button title = "+" onPress = {newCreateTransactionHandler}> </Button>
           </View>
+            <View style = {transtyles.titleContainer}>
+                <Text style = {transtyles.title} > SafeSpending </Text>
+                <View style = {transtyles.subTitleContainer}> 
+                    <Text style = {transtyles.subtitleSizing}> $ </Text>
+                    <Text style = {transtyles.subtitleSizing}> 2000.00 </Text>
+                    <View style = {transtyles.addButton}> 
+                    <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> 
+                    </View>
+                    {/* <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> */}
+                </View>
+            </View> 
+            {/* <View style = {transtyles.addButton}>
+                <Button title = " + " onPress = {newCreateTransactionHandler}> </Button>
+            </View> */}
         </Modal>
         
     )
 };
-const styles = StyleSheet.create({
+const transtyles = StyleSheet.create({
+    
+    titleContainer: {
+        flex: 5,
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingTop: 50,
+        paddingHorizontal: 16,
+      },
     title:{
-      flex: 1,
-      fontSize: 30,
-      alignItems: "center",
+      fontSize: 45,
       fontWeight: 600,
     },
-    backButton:{
-      flex: 2,
-      
+    subTitleContainer:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 15,
     },
-    appContainer: {
-      flex: 1,
-      paddingTop: 50,
-      paddingHorizontal: 16
+    subtitleSizing:{
+        fontSize: 40,
+        fontWeight: 500,
+        // backgroundColor: 'red',
+    },
+    backButton:{
+        alignItems: 'flex-start',
+        paddingTop: 35,
+        paddingLeft: 15,
+    },
+    addButton:{
+        alignItems: 'center',
+        paddingTop: 12,
+        paddingLeft: 10,
     },
     transactionContainer: {
       flex: 1,
