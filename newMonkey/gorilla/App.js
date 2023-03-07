@@ -1,4 +1,5 @@
 
+import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TextInput, Modal, props} from 'react-native';
 import Transactions from "./components/Transactions.js"
 import { useState} from "react"
@@ -26,27 +27,28 @@ export default function App(props) {
 
   return (
     <View style={styles.appContainer}>
+      <StatusBar style='auto'/>
+      <View style={styles.TitleContainer}>
+        <Text style={styles.Title}>Welcome</Text>
+      </View>
       <View style = {styles.inputContainer}>
         <Transactions 
           visible = {modalIsVisible} 
           onCancel = {closeTransactionHandler}> 
         </Transactions>
-        <TextInput 
-          style = {styles.textInput} 
-          placeholder = "Your Goal" 
-          onChangeText={goalInputHandler} 
-        />
-        <Button 
-          title = "Add Goal" 
-          onPress = {(addGoalHandler)}
-         />
-        <Button 
-          title = "transactions" 
-          onPress = {startTransactionHandler} 
-        ></Button>
+        <View style={styles.MoneyDisplay}>
+          <Text>2000</Text>
+        </View>
+        <View style={styles.InputButton}>
+          <Button
+            style={styles.InputButton}
+            title = "transactions" 
+            onPress = {startTransactionHandler} 
+          ></Button>
+        </View>
       </View>
-      <View style = {styles.goalContainer}>
-        {courseGoals.map((goal) => <Text key = {goal}>{goal}</ Text>)}
+      <View style={styles.CatigoriesContainer}>
+
       </View>
     </View>
   );
@@ -54,27 +56,32 @@ export default function App(props) {
 
 const styles = StyleSheet.create({
   appContainer: {
+    flex: 6,
+    backgroundColor: 'grey'
+  },
+  TitleContainer: {
     flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 16
+    paddingTop: 30,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  Title: {
+    fontSize: 30,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
   },
   inputContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#cccccc"
+    flex: .35,
+    flexDirection: 'column',
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    width: "70%",
-    marginRight: 8,
-    padding: 8
+  MoneyDisplay: {
+    justifyContent:'flex-start',
   },
-  goalContainer: {
-    flex: 5
+  InputButton: {
+    justifyContent:'flex-end',
+    alignItems: 'flex-end',
+  },
+  CatigoriesContainer: {
+    flex: 3
   }
 });
