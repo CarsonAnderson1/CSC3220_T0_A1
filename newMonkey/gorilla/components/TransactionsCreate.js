@@ -61,7 +61,7 @@ function CreateTransaction(props){
                 placeholder="ex. dinner party" 
                 onChangeText={handleNote}
               />
-              <Button width = "10%" title = "Add Transaction" color= "grey"> </Button>
+              <Button title = "Add Transaction" color= "grey"> </Button>
             </View>
           </View>
         </Modal>
@@ -70,12 +70,6 @@ function CreateTransaction(props){
 };
 
 const styles = StyleSheet.create({
-  title:{
-    flex: 1,
-    fontSize: 30,
-    fontWeight: 600,
-    alignItems: "center",
-  },
   backButton:{
     flex: 2,
     
@@ -120,7 +114,7 @@ const styles = StyleSheet.create({
 
   },
   addButton:{
-    width
+    
   }
 });
 export default CreateTransaction;
