@@ -1,13 +1,29 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
 import {useState} from "react"
 function CreateTransaction(props){
-
+  const[catVisible, setCatVisible] = useState('');
+  const[monVisible, setMonVisible] = useState('');
+  const[dateVisible, setDateVisible] = useState('');
+  const[noteVisible, setNoteVisible] = useState('');
+  function handleCat(enteredCatText){
+    setCatVisible(enteredCatText);
+  }
+  function handleMon(enteredMonText){
+    setMonVisible(enteredMonText);
+  }
+  function handleDate(enteredDateText){
+    setDateVisible(enteredDateText);
+  }
+  function handleNote(enteredNoteText){
+    setNoteVisible(enteredNoteText);
+  }
+  }
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
           <View style = {styles.appContainer}> 
             <Button title = "back" onPress = {props.onCancelT}> </Button>
             <View styles = {styles.inputContainer}>
-              <TextInput style = {styles.textInput} placeholder="Input Category"> </TextInput>
+              <TextInput style = {styles.textInput} placeholder ="Input Category" onChangeText={handleCat}> </TextInput>
               <TextInput style = {styles.textInput} placeholder="Input Money Spent"> </TextInput>
               <TextInput style = {styles.textInput} placeholder="Input Date"> </TextInput>
               <TextInput style = {styles.textInput} placeholder="Input Note"> </TextInput>
