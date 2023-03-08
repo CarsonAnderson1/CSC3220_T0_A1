@@ -1,10 +1,39 @@
 import { ScrollView } from 'react-native';
 import { Button, StyleSheet, Text, View, Modal } from 'react-native';
+import {useState} from "react"
+import AddCategory from './CategoriesAdd';
+import Delete from './CategoriesDelete';
 
 function Categories(props) {
+  const[addIsVisible, setAddIsVisible] = useState(false);
+  const[deleteIsVisible, setDeleteIsVisible] = useState(false);
+  function addCategory(){
+    setAddIsVisible(true);
+    {props.onCancelC}
+  }
+  function removeAddCategory(){
+    setAddIsVisible(false);
+  }
+  function deleteCategory(){
+    setDeleteIsVisible(true);
+    {props.onCancelC}
+  }
+  function removeDeleteCategory(){
+    setDeleteIsVisible(false);
+  }
+
   return (
     <Modal visible={props.visibleC} animationType="slide">
+      <AddCategory
+        visibleA = {addIsVisible}
+        onCancelA = {removeAddCategory}>
+      </AddCategory>
+      <Delete
+        visibleD = {deleteIsVisible}
+        onCancelD = {removeDeleteCategory}>
+      </Delete>
         <View style={styles.appContainer}>
+          
             <View style={styles.homeButton}>
                 <Button
                     title="Home"
@@ -23,6 +52,7 @@ function Categories(props) {
                     <Button
                         title="+"
                         color='#10eb18'
+                        onPress = {addCategory}
                     />
                 </View>
 
@@ -30,6 +60,7 @@ function Categories(props) {
                     <Button
                         title="-"
                         color='#e30707'
+                        onPress= {deleteCategory}
                     />
                 </View>
             </View>
