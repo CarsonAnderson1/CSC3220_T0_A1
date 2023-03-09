@@ -1,6 +1,62 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
 import {useState} from "react"
-function AddCategory(props){
+import SQlite from 'react-native-sqlite-storage';
+const [name, setName] = useState ("");
+
+const nameHandler = (catName) =>{
+  setName(catName);
+}
+const db = SQlite.openDatabase( // Open database function
+  {
+    name: "db",
+    location: "default",
+  },
+  () => {},
+  error => {console.log(error)}
+);
+
+function AddCategory(props){ 
+  useEffect(() => {
+    createTable();
+    getData();
+  }, []);
+
+    useEffect(() => { // Calls our Sqlite functions immediately
+      createTable();
+      getData();
+    }, [])
+
+    const createTable = () =>{ // Creates Category table function
+      db.transaction((tx) => {
+        tx.executeSql(
+          "CREATE TABLE IF NOT EXISTS"
+          + "Categories "
+          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
+
+        )
+      })
+    }
+    const setData = async () => { // Sets the data in the database
+      try{
+        db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT Name, Money FROM Categories",
+            [],
+            (tx, results) => {
+              var len = results.rows.length;
+              if(len > 0) {
+                {props.onCancelA}
+              }
+            }
+          )
+        })
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+      
+    
     return(
         <Modal visible = {props.visibleA} animationType = "slide">
           <View style = {styles.buttons}>
@@ -12,7 +68,10 @@ function AddCategory(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%"> </Button>
+                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%"
+                
+                > </Button>
+                
               </View>
           </View>
 
@@ -24,6 +83,7 @@ function AddCategory(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
+                  onChangeText={nameHandler}
                 />
               </View>
             </View>

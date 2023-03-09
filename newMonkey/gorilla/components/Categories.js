@@ -3,10 +3,20 @@ import { Button, StyleSheet, Text, View, Modal } from 'react-native';
 import {useState} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
+import SQlite from 'react-native-sqlite-storage';
 
 function Categories(props) {
+
+
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
+  const[money, setMoney] = useState(0);
+  const[name, setName] = useState("");
+
+  useEffect(() => { // Calls our Sqlite functions immediately
+    getData();
+  }, [])
+
   function addCategory(){
     setAddIsVisible(true);
     {props.onCancelC}
@@ -21,7 +31,28 @@ function Categories(props) {
   function removeDeleteCategory(){
     setDeleteIsVisible(false);
   }
-
+  const getData = () => {
+    try{
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT Name, Money FROM Categories",
+          [],
+          (tx, results) => {
+            var len = results.rows.length;
+            if(len > 0) {
+              var userName = results.row.item(0).Name;
+              var userMoney = results.row.item(0).Money;
+              setMoney(userMoney);
+              setName(userName);
+            }
+          }
+        )
+      })
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
   return (
     <Modal visible={props.visibleC} animationType="slide">
       <AddCategory
@@ -64,26 +95,11 @@ function Categories(props) {
                     />
                 </View>
         </View>
-
+            
             <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                <Text> {money}</Text>
+                  
                 </ScrollView>
                 </View>
             </View>
