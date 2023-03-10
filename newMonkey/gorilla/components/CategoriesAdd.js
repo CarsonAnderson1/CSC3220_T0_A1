@@ -26,7 +26,7 @@ function AddCategory(props){
     db.transaction((tx) => {
         tx.executeSql(
             "CREATE TABLE IF NOT EXISTS "
-            + "Categories "
+            + "Categories"
             + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
         )
     })
@@ -51,20 +51,17 @@ const getData = () => {
 }
 const setData = () => {
   if (name.length == 0) {
-      Alert.alert('Warning!', 'Please write your data.')
+      console.log("nothing entered")
   } else {
-      try {
+      
         db.transaction((tx) => {
         tx.executeSql(
-        "INSERT INTO Categories (Name, Money) VALUES (?,?)",
-        [name, 0]
+        "INSERT INTO Categories (Name, Money) VALUES (?,0)",
+        [name]
         );
       })
         {props.onCancelA}
-      }   catch (error) {
-          console.log(error);
-      }
-  }
+      }   
 }
 
     return(

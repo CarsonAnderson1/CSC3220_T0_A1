@@ -17,7 +17,7 @@ const db = SQLite.openDatabase(
 export default function Categories(props) {
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
-  const[name, setName] = useState('');
+  const[name, setName] = useState('to change');
 
   useEffect(() => {
     getData();
@@ -27,12 +27,12 @@ export default function Categories(props) {
     try {
       db.transaction((tx) => {
         tx.executeSql(
-          "SELECT Name, Money FROM Users",
+          "SELECT Name, Money FROM Categories",
           [],
           (tx, results) => {
              var len = results.rows.length;
              if (len > 0) {
-              var userName = results.rows.item(0).Name;
+              var userName = results.rows.Name;
               setName(userName);
               }
             }
