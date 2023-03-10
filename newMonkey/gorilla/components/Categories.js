@@ -4,6 +4,7 @@ import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
 import * as SQLite from "expo-sqlite";
+import { openDatabase } from 'expo-sqlite';
 
 const db = SQLite.openDatabase(
   {
@@ -17,9 +18,10 @@ const db = SQLite.openDatabase(
 export default function Categories(props) {
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
-  const[name, setName] = useState('');
+  const[name, setName] = useState('testing');
 
   useEffect(() => {
+    console.log("working")
     getData();
   }, []);
 
@@ -27,12 +29,13 @@ export default function Categories(props) {
     try {
       db.transaction((tx) => {
         tx.executeSql(
-          "SELECT Name, Money FROM Users",
+          "SELECT Name, Money FROM Categories",
           [],
           (tx, results) => {
              var len = results.rows.length;
              if (len > 0) {
               var userName = results.rows.item(0).Name;
+              console.log("about to set name")
               setName(userName);
               }
             }
@@ -103,8 +106,7 @@ export default function Categories(props) {
 
             <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                    <Text style={{fontSize: 30}}>{name}</Text>
-                    
+                <Text style={{fontSize: 30}}>{name}</Text>
                 </ScrollView>
                 </View>
             </View>

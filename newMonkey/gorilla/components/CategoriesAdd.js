@@ -11,12 +11,8 @@ const db = SQLite.openDatabase(
   error => { console.log(error) }
 );
 function AddCategory(props){
-  const [name, setName] = useState('');
-
-  const nameHandler = (catName) => {
-    setName(catName);
-  }
-
+  const [name, setName] = useState(null);
+ 
   useEffect(() => {
     createTable();
     getData();
@@ -27,7 +23,7 @@ function AddCategory(props){
         tx.executeSql(
             "CREATE TABLE IF NOT EXISTS "
             + "Categories "
-            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
+            + "(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, money INTEGER);"
         )
     })
 }
@@ -50,21 +46,18 @@ const getData = () => {
   }
 }
 const setData = () => {
-  if (name.length == 0) {
-      Alert.alert('Warning!', 'Please write your data.')
-  } else {
-      try {
-        db.transaction((tx) => {
-        tx.executeSql(
-        "INSERT INTO Categories (Name, Money) VALUES (?,?)",
-        [name, 0]
-        );
-      })
-        {props.onCancelA}
-      }   catch (error) {
-          console.log(error);
-      }
+  
+  if(name == null){
+    console.log("name not long enough");
   }
+   db.transaction((tx) => {
+    tx.executeSql("insert into Categories (name, money) values (?, 0)", [name]);
+    tx.executeSql("select * from Categories", [], (_, { rows }) =>
+      console.log(JSON.stringify(rows)))
+    })
+    console.log("insert")
+    {props.onCancelA};
+  
 }
 
     return(
@@ -78,7 +71,7 @@ const setData = () => {
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {setData}> </Button>
+                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress={setData}> </Button>
               </View>
           </View>
 
@@ -90,7 +83,7 @@ const setData = () => {
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
-                  onChangeText={nameHandler}
+                  onChangeText={(catName) => setName(catName)}
                 />
               </View>
             </View>
