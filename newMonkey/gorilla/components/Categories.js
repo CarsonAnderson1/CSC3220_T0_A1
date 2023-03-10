@@ -1,12 +1,48 @@
 import { ScrollView } from 'react-native';
 import { Button, StyleSheet, Text, View, Modal } from 'react-native';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
+import * as SQLite from "expo-sqlite";
 
-function Categories(props) {
+const db = SQLite.openDatabase(
+  {
+      name: 'MainDB',
+      location: 'default',
+  },
+  () => { },
+  error => { console.log(error) }
+);
+
+export default function Categories(props) {
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
+  const[name, setName] = useState('');
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = () => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT Name, Money FROM Users",
+          [],
+          (tx, results) => {
+             var len = results.rows.length;
+             if (len > 0) {
+              var userName = results.rows.item(0).Name;
+              setName(userName);
+              }
+            }
+         )
+      })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
   function addCategory(){
     setAddIsVisible(true);
     {props.onCancelC}
@@ -67,23 +103,8 @@ function Categories(props) {
 
             <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    <Text style={{fontSize: 30}}>{name}</Text>
+                    
                 </ScrollView>
                 </View>
             </View>
@@ -138,4 +159,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Categories;

@@ -1,6 +1,72 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
-import {useState} from "react"
+import {useState, useEffect} from "react"
+import * as SQLite from "expo-sqlite";
+
+const db = SQLite.openDatabase(
+  {
+      name: 'MainDB',
+      location: 'default',
+  },
+  () => { },
+  error => { console.log(error) }
+);
 function AddCategory(props){
+  const [name, setName] = useState('');
+
+  const nameHandler = (catName) => {
+    setName(catName);
+  }
+
+  useEffect(() => {
+    createTable();
+    getData();
+  }, []);
+
+  const createTable = () => {
+    db.transaction((tx) => {
+        tx.executeSql(
+            "CREATE TABLE IF NOT EXISTS "
+            + "Categories "
+            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
+        )
+    })
+}
+const getData = () => {
+  try {
+      db.transaction((tx) => {
+          tx.executeSql(
+              "SELECT Name, Money FROM Categories",
+              [],
+              (tx, results) => {
+                  var len = results.rows.length;
+                  if (len > 0) {
+                      {props.onCancelA}
+                  }
+              }
+          )
+      })
+  } catch (error) {
+      console.log(error);
+  }
+}
+const setData = () => {
+  if (name.length == 0) {
+      Alert.alert('Warning!', 'Please write your data.')
+  } else {
+      try {
+        db.transaction((tx) => {
+        tx.executeSql(
+        "INSERT INTO Categories (Name, Money) VALUES (?,?)",
+        [name, 0]
+        );
+      })
+        {props.onCancelA}
+      }   catch (error) {
+          console.log(error);
+      }
+  }
+}
+
     return(
         <Modal visible = {props.visibleA} animationType = "slide">
           <View style = {styles.buttons}>
@@ -12,7 +78,7 @@ function AddCategory(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%"> </Button>
+                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {setData}> </Button>
               </View>
           </View>
 
@@ -24,6 +90,7 @@ function AddCategory(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
+                  onChangeText={nameHandler}
                 />
               </View>
             </View>
