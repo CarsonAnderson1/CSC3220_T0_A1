@@ -1,21 +1,50 @@
 import { ScrollView } from 'react-native';
 import { Button, StyleSheet, Text, View, Modal } from 'react-native';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
-import SQlite from 'react-native-sqlite-storage';
+import * as SQLite from "expo-sqlite";
+import { openDatabase } from 'expo-sqlite';
 
-function Categories(props) {
+const db = SQLite.openDatabase(
+  {
+      name: 'MainDB',
+      location: 'default',
+  },
+  () => { },
+  error => { console.log(error) }
+);
 
-
+export default function Categories(props) {
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
-  const[money, setMoney] = useState(0);
-  const[name, setName] = useState("");
+  const[name, setName] = useState('testing');
 
-  useEffect(() => { // Calls our Sqlite functions immediately
+  useEffect(() => {
+    console.log("working")
     getData();
-  }, [])
+  }, []);
+
+  const getData = () => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(
+          "SELECT Name, Money FROM Categories",
+          [],
+          (tx, results) => {
+             var len = results.rows.length;
+             if (len > 0) {
+              var userName = results.rows.item(0).Name;
+              console.log("about to set name")
+              setName(userName);
+              }
+            }
+         )
+      })
+    } catch (error) {
+        console.log(error);
+    }
+}
 
   function addCategory(){
     setAddIsVisible(true);
@@ -98,8 +127,7 @@ function Categories(props) {
             
             <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                <Text> {money}</Text>
-                  
+                <Text style={{fontSize: 30}}>{name}</Text>
                 </ScrollView>
                 </View>
             </View>
@@ -154,4 +182,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Categories;

@@ -1,62 +1,65 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
-import {useState} from "react"
-import SQlite from 'react-native-sqlite-storage';
-const [name, setName] = useState ("");
+import {useState, useEffect} from "react"
+import * as SQLite from "expo-sqlite";
 
-const nameHandler = (catName) =>{
-  setName(catName);
-}
-const db = SQlite.openDatabase( // Open database function
+const db = SQLite.openDatabase(
   {
-    name: "db",
-    location: "default",
+      name: 'MainDB',
+      location: 'default',
   },
-  () => {},
-  error => {console.log(error)}
+  () => { },
+  error => { console.log(error) }
 );
-
-function AddCategory(props){ 
+function AddCategory(props){
+  const [name, setName] = useState(null);
+ 
   useEffect(() => {
     createTable();
     getData();
   }, []);
 
-    useEffect(() => { // Calls our Sqlite functions immediately
-      createTable();
-      getData();
-    }, [])
-
-    const createTable = () =>{ // Creates Category table function
-      db.transaction((tx) => {
+  const createTable = () => {
+    db.transaction((tx) => {
         tx.executeSql(
-          "CREATE TABLE IF NOT EXISTS"
-          + "Categories "
-          + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
-
+            "CREATE TABLE IF NOT EXISTS "
+            + "Categories "
+            + "(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, money INTEGER);"
         )
-      })
-    }
-    const setData = async () => { // Sets the data in the database
-      try{
-        db.transaction((tx) => {
+    })
+}
+const getData = () => {
+  try {
+      db.transaction((tx) => {
           tx.executeSql(
-            "SELECT Name, Money FROM Categories",
-            [],
-            (tx, results) => {
-              var len = results.rows.length;
-              if(len > 0) {
-                {props.onCancelA}
+              "SELECT Name, Money FROM Categories",
+              [],
+              (tx, results) => {
+                  var len = results.rows.length;
+                  if (len > 0) {
+                      {props.onCancelA}
+                  }
               }
-            }
           )
-        })
-      }
-      catch(error){
-        console.log(error);
-      }
-    }
-      
-    
+      })
+  } catch (error) {
+      console.log(error);
+  }
+}
+const setData = () => {
+  
+  if(name == null){
+    console.log("name not long enough");
+  }
+   db.transaction((tx) => {
+    tx.executeSql("insert into Categories (name, money) values (?, 0)", [name]);
+    tx.executeSql("select * from Categories", [], (_, { rows }) =>
+      console.log(JSON.stringify(rows)))
+    })
+    console.log("insert")
+    {props.onCancelA};
+  
+}
+
     return(
         <Modal visible = {props.visibleA} animationType = "slide">
           <View style = {styles.buttons}>
@@ -68,10 +71,7 @@ function AddCategory(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%"
-                
-                > </Button>
-                
+                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress={setData}> </Button>
               </View>
           </View>
 
@@ -83,7 +83,7 @@ function AddCategory(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
-                  onChangeText={nameHandler}
+                  onChangeText={(catName) => setName(catName)}
                 />
               </View>
             </View>
