@@ -3,10 +3,9 @@ import {useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
 export default function Delete(props){
 
-  const [toDelete, setDelete] = useState("")
+  const [toDelete, setDelete] = useState(undefined)
   const [dataLoading, setDataLoading] = useState(true);
   const [name, setName] = useState([])
-  const [currName, setCurrName] = useState([])
   const db = SQLite.openDatabase("categories.db");  // Open the db or create it if needed
 
   useEffect(() => {
@@ -42,16 +41,16 @@ export default function Delete(props){
 
   const deleteCategory = () => {
     db.transaction(tx => {
-      let sqlcmd = "DELETE FROM category WHERE name='";
-      sqlcmd += toDelete;
-      sqlcmd += "'";
+      let sqlcmd = "DELETE FROM categories";
+      //sqlcmd += toDelete;
+      //sqlcmd += "'";
 
       tx.executeSql(sqlcmd,
         (_, resultSet) => {
           if (resultSet.rowsAffected > 0) {
             let existingName = [...name].filter(name => name.id != id);
-            setName(existingAssignments)
-            setCurrName(undefined);
+            setName(existingName)
+            setDelete(undefined);
           }
         })
     })
@@ -69,7 +68,7 @@ export default function Delete(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Deletion" color= "green" style = {styles.addButton} width = "40%"> </Button>
+                <Button title = "Confirm Deletion" color= "green" style = {styles.addButton} width = "40%" onPress = {deleteCategory}> </Button>
               </View>
           </View>
 
@@ -81,6 +80,7 @@ export default function Delete(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
+                  onChangeText = {setDelete}
                 />
               </View>
             </View>
