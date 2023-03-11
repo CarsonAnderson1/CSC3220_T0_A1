@@ -1,5 +1,5 @@
-import { ScrollView } from 'react-native';
-import { Button, StyleSheet, Text, View, Modal } from 'react-native';
+
+import { Button, StyleSheet, Text, View, Modal, ScrollView} from 'react-native';
 import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
@@ -117,13 +117,11 @@ export default function Categories(props) {
                     />
                 </View>
         </View>
+        <View style = {styles.column}>{showCategories()}</View>
             
-            <View style={styles.scrollAdjusts}>
-                
-                   <Text>{showCategories()}</Text> 
                     
              
-                </View>
+              
             </View>
         </View>
     </Modal>

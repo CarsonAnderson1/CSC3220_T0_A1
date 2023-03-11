@@ -92,7 +92,8 @@ function AddCategory(props){
                   onChangeText = {setCurrName}
                 />
               </View>
-              <Text> {showCategories()} </Text>
+              <View style = {styles.column}>{showCategories()}</View>
+ 
             </View>
         </Modal>
         
