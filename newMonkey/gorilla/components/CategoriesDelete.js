@@ -13,7 +13,6 @@ export default function Delete(props){
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
-      sqlcmd += "   money INTEGER";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -41,11 +40,12 @@ export default function Delete(props){
 
   const deleteCategory = () => {
     db.transaction(tx => {
-      let sqlcmd = "DELETE FROM categories";
+      let sqlcmd = ""; 
+      sqlcmd += "DELETE FROM categories";
       //sqlcmd += toDelete;
       //sqlcmd += "'";
 
-      tx.executeSql(sqlcmd,
+      tx.executeSql(sqlcmd, [toDelete],
         (_, resultSet) => {
           if (resultSet.rowsAffected > 0) {
             let existingName = [...name].filter(name => name.id != id);
