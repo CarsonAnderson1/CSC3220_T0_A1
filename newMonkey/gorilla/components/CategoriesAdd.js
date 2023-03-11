@@ -2,69 +2,71 @@ import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-nat
 import {useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase(
-  {
-      name: 'MainDB',
-      location: 'default',
-  },
-  () => { },
-  error => { console.log(error) }
-);
 function AddCategory(props){
-  const [name, setName] = useState('');
+  const [dataLoading, setDataLoading] = useState(true);
+  const [name, setName] = useState([]); // array that holds name list
+  const [currName, setCurrName] = useState(undefined); // for text input box
 
-  const nameHandler = (catName) => {
-    setName(catName);
-  }
+
+  const db = SQLite.openDatabase("categories.db"); 
 
   useEffect(() => {
-    createTable();
-    getData();
-  }, []);
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
 
-  const createTable = () => {
-    db.transaction((tx) => {
-        tx.executeSql(
-            "CREATE TABLE IF NOT EXISTS "
-            + "Categories"
-            + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Money INTEGER);"
-        )
-    })
-}
-const getData = () => {
-  try {
-      db.transaction((tx) => {
-          tx.executeSql(
-              "SELECT Name, Money FROM Categories",
-              [],
-              (tx, results) => {
-                  var len = results.rows.length;
-                  if (len > 0) {
-                      {props.onCancelA}
-                  }
-              }
-          )
-      })
-  } catch (error) {
-      console.log(error);
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading categories...</Text>
+      </View>
+    );
   }
-}
-const setData = () => {
-  if (name.length == 0) {
-      console.log("nothing entered")
-  } else {
-      
-        db.transaction((tx) => {
-        tx.executeSql(
-        "INSERT INTO Categories (Name, Money) VALUES (?,0)",
-        [name]
-        );
-      })
-        {props.onCancelA}
-      }   
-}
+
+  const addCategory = () => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "INSERT INTO categories (money,name) values (0,?)";
+      tx.executeSql(sqlcmd, [currName],
+          (_, resultSet) => {
+          let existingName = [...name];
+          existingName.push({ id: resultSet.insertId, name: currName, money: 0});
+          setName(existingName);
+        })
+    });
+  }
+
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.row}> 
+          <Text>{assObj.name}</Text>
+        </View>
+      );
+    });
+  };
+
 
     return(
+      
         <Modal visible = {props.visibleA} animationType = "slide">
           <View style = {styles.buttons}>
             <View style={styles.backButton}>
@@ -75,7 +77,7 @@ const setData = () => {
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {setData}> </Button>
+                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {addCategory}> </Button>
               </View>
           </View>
 
@@ -85,11 +87,13 @@ const setData = () => {
                   Input Category to Create
                 </Text>
                 <TextInput 
+                  value = {currName}
                   style = {styles.textInput} 
-                  placeholder ="ex. groceries" 
-                  onChangeText={nameHandler}
+                  placeholder = "ex. groceries" 
+                  onChangeText = {setCurrName}
                 />
               </View>
+              <Text> {showCategories()} </Text>
             </View>
         </Modal>
         

@@ -1,5 +1,63 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
+import {useState, useEffect} from "react"
+import * as SQLite from "expo-sqlite";
 export default function Delete(props){
+
+  const [toDelete, setDelete] = useState("")
+  const [dataLoading, setDataLoading] = useState(true);
+  const [name, setName] = useState([])
+  const [currName, setCurrName] = useState([])
+  const db = SQLite.openDatabase("categories.db");  // Open the db or create it if needed
+
+  useEffect(() => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);  // If an empty array is passed as a parameter useEffect only runs once.
+
+  if (dataLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+
+  const deleteCategory = () => {
+    db.transaction(tx => {
+      let sqlcmd = "DELETE FROM category WHERE name='";
+      sqlcmd += toDelete;
+      sqlcmd += "'";
+
+      tx.executeSql(sqlcmd,
+        (_, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            let existingName = [...name].filter(name => name.id != id);
+            setName(existingAssignments)
+            setCurrName(undefined);
+          }
+        })
+    })
+  }
+
+
     return(
         <Modal visible = {props.visibleD} animationType = "slide">
           <View style = {styles.buttons}>

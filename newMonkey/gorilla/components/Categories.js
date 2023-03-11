@@ -5,43 +5,59 @@ import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
 import * as SQLite from "expo-sqlite";
 
-const db = SQLite.openDatabase(
-  {
-      name: 'MainDB',
-      location: 'default',
-  },
-  () => { },
-  error => { console.log(error) }
-);
+
 
 export default function Categories(props) {
+  const [dataLoading, setDataLoading] = useState(true);
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
-  const[name, setName] = useState('to change');
+  const[name, setName] = useState([]);
+
+  const db = SQLite.openDatabase("categories.db"); 
 
   useEffect(() => {
-    getData();
-  }, []);
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
 
-  const getData = () => {
-    try {
-      db.transaction((tx) => {
-        tx.executeSql(
-          "SELECT Name, Money FROM Categories",
-          [],
-          (tx, results) => {
-             var len = results.rows.length;
-             if (len > 0) {
-              var userName = results.rows.Name;
-              setName(userName);
-              }
-            }
-         )
-      })
-    } catch (error) {
-        console.log(error);
-    }
-}
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+  
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.row}> 
+        <ScrollView>
+          <Text>{assObj.name}</Text>
+        </ScrollView>
+          
+        </View>
+      );
+    });
+  };
+  
 
   function addCategory(){
     setAddIsVisible(true);
@@ -79,7 +95,7 @@ export default function Categories(props) {
             </View>
 
         <View style={styles.title}>
-            <Text style={{fontSize: 50}}>SafeSpending</Text>
+            <Text style={{fontSize: 50}}>Categories</Text>
         </View>
 
         <View style={styles.rowContainer}>
@@ -102,10 +118,10 @@ export default function Categories(props) {
         </View>
 
             <View style={styles.scrollAdjusts}>
-                <ScrollView style={styles.scrollView}>
-                    <Text style={{fontSize: 30}}>{name}</Text>
+                
+                   <Text>{showCategories()}</Text> 
                     
-                </ScrollView>
+             
                 </View>
             </View>
         </View>
