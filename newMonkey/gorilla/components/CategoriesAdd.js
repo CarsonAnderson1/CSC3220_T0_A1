@@ -15,7 +15,6 @@ function AddCategory(props){
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
-      sqlcmd += "   money INTEGER";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });

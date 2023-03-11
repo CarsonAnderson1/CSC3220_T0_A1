@@ -41,14 +41,14 @@ export default function Delete(props){
   const deleteCategory = () => {
     db.transaction(tx => {
       let sqlcmd = ""; 
-      sqlcmd += "DELETE FROM categories";
-      //sqlcmd += toDelete;
-      //sqlcmd += "'";
+      sqlcmd += "DELETE FROM categories '";
+      sqlcmd += toDelete;
+      sqlcmd += "'";
 
       tx.executeSql(sqlcmd, [toDelete],
         (_, resultSet) => {
           if (resultSet.rowsAffected > 0) {
-            let existingName = [...name].filter(name => name.id != id);
+            let existingName = [...name].filter(name => name != toDelete);
             setName(existingName)
             setDelete(undefined);
           }
