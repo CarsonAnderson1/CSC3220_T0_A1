@@ -44,11 +44,11 @@ function AddCategory(props){
   const addCategory = () => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "INSERT INTO categories (money,name) values (0,?)";
+      sqlcmd += "INSERT INTO categories (name) values (?)";
       tx.executeSql(sqlcmd, [currName],
           (_, resultSet) => {
           let existingName = [...name];
-          existingName.push({ id: resultSet.insertId, name: currName, money: 0});
+          existingName.push({ id: resultSet.insertId, name: currName});
           setName(existingName);
         })
     });

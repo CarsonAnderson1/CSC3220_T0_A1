@@ -73,28 +73,8 @@ export default function Categories(props) {
   function removeDeleteCategory(){
     setDeleteIsVisible(false);
   }
-  const getData = () => {
-    try{
-      db.transaction((tx) => {
-        tx.executeSql(
-          "SELECT Name, Money FROM Categories",
-          [],
-          (tx, results) => {
-            var len = results.rows.length;
-            if(len > 0) {
-              var userName = results.row.item(0).Name;
-              var userMoney = results.row.item(0).Money;
-              setMoney(userMoney);
-              setName(userName);
-            }
-          }
-        )
-      })
-    }
-    catch(error){
-      console.log(error);
-    }
-  }
+  
+  
   return (
     <Modal visible={props.visibleC} animationType="slide">
       <AddCategory
