@@ -38,10 +38,10 @@ export default function Delete(props){
     );
   }
 
-  const deleteCategory = () => {
+  const deleteCategory = (id) => {
     db.transaction(tx => {
       let sqlcmd = ""; 
-      sqlcmd += "DELETE FROM categories";
+      sqlcmd += "DELETE FROM categories WHERE id = ? ", [id];
       //sqlcmd += toDelete;
       //sqlcmd += "'";
 
