@@ -125,14 +125,6 @@ export default function Categories(props) {
              
                 </View>
             </View>
-
-              <View style={styles.scrollAdjusts}>
-                <ScrollView style={styles.scrollView}>
-                    {showCategories()}
-                </ScrollView>
-              </View>
-
-          </View>
         </View>
     </Modal>
   )
@@ -183,4 +175,3 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   }
 });
-
