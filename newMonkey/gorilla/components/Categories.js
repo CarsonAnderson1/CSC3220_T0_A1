@@ -48,17 +48,15 @@ export default function Categories(props) {
   const showCategories = () => {
     return name.map((assObj) => {
       return (
-        <View key={assObj.id} style={styles.row}> 
-        <ScrollView>
-          <Text>{assObj.name}</Text>
-        </ScrollView>
-          
+        <View key={assObj.id}> 
+          <Text style={{fontSize: 30}}>
+            {assObj.name}
+          </Text>
         </View>
       );
     });
   };
   
-
   function addCategory(){
     setAddIsVisible(true);
     {props.onCancelC}
@@ -85,45 +83,44 @@ export default function Categories(props) {
         visibleD = {deleteIsVisible}
         onCancelD = {removeDeleteCategory}>
       </Delete>
-        <View style={styles.appContainer}>
-          
-            <View style={styles.homeButton}>
-                <Button
-                    title="Home"
-                    color='#474745'
-                    onPress={props.onCancelC}
-                />
-            </View>
-
+      <View style={styles.appContainer}>
+        <View style={styles.homeButton}>
+            <Button
+              title="Home"
+              color='#474745'
+              onPress={props.onCancelC}
+            />
+        </View>
         <View style={styles.title}>
-            <Text style={{fontSize: 50}}>Categories</Text>
+          <Text style={{fontSize: 50}}>Categories</Text>
         </View>
-
         <View style={styles.rowContainer}>
-            <View style={styles.buttonsContainer}>
-                <View style={styles.addButton}>
-                    <Button
-                        title="+"
-                        color='#10eb18'
-                        onPress = {addCategory}
-                    />
-                </View>
-
-                <View style={styles.removeButton}>
-                    <Button
-                        title="-"
-                        color='#e30707'
-                        onPress= {deleteCategory}
-                    />
-                </View>
-        </View>
-        <View style = {styles.column}>{showCategories()}</View>
-            
-                    
-             
-              
+          <View style={styles.buttonsContainer}>
+            <View style={styles.addButton}>
+              <Button
+                title="+"
+                color='#10eb18'
+                onPress = {addCategory}
+              />
             </View>
+
+            <View style={styles.removeButton}>
+              <Button
+                title="-"
+                color='#e30707'
+                onPress= {deleteCategory}
+              />
+            </View>
+          </View>
+          <View style={styles.scrollAdjusts}>
+            <ScrollView style={styles.scrollView}>
+              <View style = {styles.column}>
+                {showCategories()}
+              </View>
+            </ScrollView>
+          </View>
         </View>
+      </View>
     </Modal>
   )
 };
@@ -173,4 +170,3 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   }
 });
-
