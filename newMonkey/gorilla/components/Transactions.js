@@ -1,8 +1,54 @@
 import {StyleSheet, Text, View, Button, Modal, props} from 'react-native'
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import CreateTransaction from './TransactionsCreate';
+import * as SQLite from "expo-sqlite";
 function Transactions(props){
   const [tranIsVisible, setTranIsVisible] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [money, setMoney] = useState([]); // array that holds name list
+  const [currMoney, setCurrMoney] = useState(undefined); // for text input box
+  const reload=()=>window.location.reload();
+
+  const db = SQLite.openDatabase("categories.db"); 
+
+  useEffect(() => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS money";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM money";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setMoney(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View>
+        <Text>Loading money...</Text>
+      </View>
+    );
+  }
+  const showMoney = () => {
+    return money.map(({id, money}) => {
+      return (
+        <View key={id} style={transtyles.row}> 
+          <Text>{money}</Text>
+        </View>
+      );
+    });
+  };
 
     function newCreateTransactionHandler(){ // Goes to "TransactionsCreate" page
       setTranIsVisible(true);
@@ -26,7 +72,7 @@ function Transactions(props){
                 <Text style = {transtyles.title} > SafeSpending </Text>
                 <View style = {transtyles.subTitleContainer}> 
                     <Text style = {transtyles.subtitleSizing}> $ </Text>
-                    <Text style = {transtyles.subtitleSizing}> 2000.00 </Text>
+                    <Text style = {transtyles.subtitleSizing}> {showMoney()} </Text>
                     <View style = {transtyles.addButton}> 
                     <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> 
                     </View>

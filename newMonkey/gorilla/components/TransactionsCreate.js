@@ -46,9 +46,14 @@ function CreateTransaction(props){
   }
 
   const addTransaction = () => {
+    if(currCat == null || currDate == undefined || currMoney == 0 || currNote == undefined){
+      console.log("invalid addition")
+    }
+    else{
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "INSERT INTO transactions (cat, money, date, note) values (?,?,?,?)";
+      
       tx.executeSql(sqlcmd, [currCat, currMoney, currDate, currNote],
           (_, resultSet) => {
           let existingTransaction = [...transaction];
@@ -61,6 +66,7 @@ function CreateTransaction(props){
           console.log("added 2")
         );
     });
+  }
   }
 
   const showTransaction = () => {
