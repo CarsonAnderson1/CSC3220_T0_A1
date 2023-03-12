@@ -57,56 +57,57 @@ function AddCategory(props){
     return name.map((assObj) => {
       return (
         <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
-
-
+          <Text style={{color: 'white'}}>{assObj.name}</Text>
         </View>
       );
     });
   };
 
-
-    return(
-      
-        <Modal visible = {props.visibleA} animationType = "slide">
-          <View style = {styles.buttons}>
-            <View style={styles.backButton}>
+  return(
+    <Modal visible = {props.visibleA} animationType = "slide">
+      <View style = {styles.appContainer}>
+        <View style = {styles.buttons}>
+          <View style={styles.backButton}>
+            <Button
+              color = "red"
+              title = "close"
+              onPress={props.onCancelA}
+            />
+          </View>
+            <View style = {styles.confirmButton}>
               <Button
-                color = "red"
-                title = "cancel"
-                onPress={props.onCancelA}
+                title = "Confirm Creation"
+                color= "green"
+                style = {styles.addButton}
+                width = "40%"
+                onPress = {addCategory}
               />
             </View>
-              <View style = {styles.confirmButton}>
-                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {addCategory}> </Button>
-              </View>
-          </View>
-
-          <View style = {styles.appContainer}>
-              <View style = {styles.box}>
-                <Text style = {styles.textStyle}>
-                  Input Category to Create
-                </Text>
-                <TextInput 
-                  value = {currName}
-                  style = {styles.textInput} 
-                  placeholder = "ex. groceries" 
-                  onChangeText = {setCurrName}
-                />
-              </View>
-              <View style = {styles.column}>{showCategories()}</View>
- 
-            </View>
-        </Modal>
-        
-    )
+        </View>
+        <View style = {styles.box}>
+          <Text style = {styles.textStyle}>
+            Input Category to Create
+          </Text>
+          <TextInput 
+            value = {currName}
+            style = {styles.textInput}
+            placeholder = "ex. groceries"
+            placeholderTextColor={"white"}
+            onChangeText = {setCurrName}
+          />
+        </View>
+        <View style = {styles.column}>
+          {showCategories()}
+        </View>
+      </View>
+    </Modal>
+  )
 };
 
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    paddingTop: 10,
-    paddingHorizontal: 16,
+    backgroundColor: '#1b1c1b',
   },
   backButton: {
     flex: 2,
@@ -120,6 +121,8 @@ const styles = StyleSheet.create({
     width: "70%",
     marginRight: 8,
     padding: 8,
+    color: 'white',
+    backgroundColor: '#3a3d3a',
   },
   backButton:{
     alignItems: 'flex-start',
@@ -136,9 +139,11 @@ const styles = StyleSheet.create({
   textStyle:{
     fontSize: 14,
     fontFamily: "normal",
-    color: "black",
+    color: "white",
   },
   box:{
+    paddingTop: 10,
+    paddingHorizontal: 16,
     paddingBottom: 10,
   }
 });
