@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "expo": "^48.0.6",
+    "react-native-sqlite-storage": "^6.0.1"
+  }
+}

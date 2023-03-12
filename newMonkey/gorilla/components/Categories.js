@@ -1,14 +1,62 @@
 import { ScrollView } from 'react-native';
 import { Button, StyleSheet, Text, View, Modal } from 'react-native';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
-//import {db} from './App.js';
-import { showCategories } from '../App';
+import * as SQLite from "expo-sqlite";
 
-function Categories(props) {
+
+
+export default function Categories(props) {
+  const [dataLoading, setDataLoading] = useState(true);
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
+  const[name, setName] = useState([]);
+
+  const db = SQLite.openDatabase("categories.db"); 
+
+  useEffect(() => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+  
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.row}> 
+        <ScrollView>
+          <Text>{assObj.name}</Text>
+        </ScrollView>
+          
+        </View>
+      );
+    });
+  };
   
 
   function addCategory(){
@@ -25,7 +73,8 @@ function Categories(props) {
   function removeDeleteCategory(){
     setDeleteIsVisible(false);
   }
-
+  
+  
   return (
     <Modal visible={props.visibleC} animationType="slide">
       <AddCategory
@@ -47,7 +96,7 @@ function Categories(props) {
             </View>
 
         <View style={styles.title}>
-          <Text style={{fontSize: 50}}>SafeSpending</Text>
+            <Text style={{fontSize: 50}}>Categories</Text>
         </View>
 
         <View style={styles.rowContainer}>
@@ -66,6 +115,14 @@ function Categories(props) {
                         color='#e30707'
                         onPress= {deleteCategory}
                     />
+                </View>
+        </View>
+            
+            <View style={styles.scrollAdjusts}>
+                
+                   <Text>{showCategories()}</Text> 
+                    
+             
                 </View>
             </View>
 
@@ -127,4 +184,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Categories;

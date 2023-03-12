@@ -1,9 +1,71 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
 import {useState, useEffect} from "react"
-import { addCategory, setCurrCat } from '../App.js';
+import * as SQLite from "expo-sqlite";
 
 function AddCategory(props){
+  const [dataLoading, setDataLoading] = useState(true);
+  const [name, setName] = useState([]); // array that holds name list
+  const [currName, setCurrName] = useState(undefined); // for text input box
+
+
+  const db = SQLite.openDatabase("categories.db"); 
+
+  useEffect(() => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+
+  const addCategory = () => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "INSERT INTO categories (name) values (?)";
+      tx.executeSql(sqlcmd, [currName],
+          (_, resultSet) => {
+          let existingName = [...name];
+          existingName.push({ id: resultSet.insertId, name: currName});
+          setName(existingName);
+        })
+    });
+  }
+
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.row}> 
+          <Text>{assObj.name}</Text>
+        </View>
+      );
+    });
+  };
+
+
     return(
+      
         <Modal visible = {props.visibleA} animationType = "slide">
           <View style = {styles.buttons}>
             <View style={styles.backButton}>
@@ -14,13 +76,7 @@ function AddCategory(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button
-                  title = "Confirm Creation"
-                  color= "green" 
-                  style = {styles.addButton}
-                  width = "40%"
-                  onPress={addCategory}
-                />
+                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {addCategory}> </Button>
               </View>
           </View>
 
@@ -30,11 +86,13 @@ function AddCategory(props){
                   Input Category to Create
                 </Text>
                 <TextInput 
+                  value = {currName}
                   style = {styles.textInput} 
-                  placeholder ="ex. groceries" 
-                  onChangeText={setCurrCat}
+                  placeholder = "ex. groceries" 
+                  onChangeText = {setCurrName}
                 />
               </View>
+              <Text> {showCategories()} </Text>
             </View>
         </Modal>
         
