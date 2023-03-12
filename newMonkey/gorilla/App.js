@@ -3,11 +3,57 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TextInput, Modal, props, ScrollView} from 'react-native';
 import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
-import { useState} from "react"
-
+import { useState, useEffect} from "react"
+import * as SQLite from "expo-sqlite";
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [name, setName] = useState([]); // array that holds name list
+
+
+  const db = SQLite.openDatabase("categories.db"); 
+
+  useEffect(() => {
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   name TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
+
+    setDataLoading(false);
+     
+  }, []);
+  
+  if (dataLoading) {
+    return (
+      <View style>
+        <Text>Loading categories...</Text>
+      </View>
+    );
+  }
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.row}> 
+          <Text>{assObj.name}</Text>
+
+
+        </View>
+      );
+    });
+  };
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
@@ -55,26 +101,7 @@ export default function App(props) {
       <View style={styles.CategoriesContainer}>
       <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                  <View style = {styles.CategoryMoney}>
-                    <Text style={{fontSize: 20}}>Groceries</Text>
-                    <Text style={{fontSize: 20}}> $20 </Text>
-                  </View>
-                  <View style = {styles.CategoryMoney}>
-                    <Text style={{fontSize: 20}}>Rent</Text>
-                    <Text style={{fontSize: 20}}> $50 </Text>
-                  </View>
-                  <View style = {styles.CategoryMoney}>
-                    <Text style={{fontSize: 20}}>Utilities</Text>
-                    <Text style={{fontSize: 20}}> $100 </Text>
-                  </View>
-                  <View style = {styles.CategoryMoney}>
-                    <Text style={{fontSize: 20}}>Dinners</Text>
-                    <Text style={{fontSize: 20}}> $200</Text>
-                  </View>
-                  <View style = {styles.CategoryMoney}>
-                    <Text style={{fontSize: 20}}>Gambling</Text>
-                    <Text style={{fontSize: 20}}> $2000 </Text>
-                  </View>
+                 {showCategories()}
                 </ScrollView>
                 </View>
       </View>

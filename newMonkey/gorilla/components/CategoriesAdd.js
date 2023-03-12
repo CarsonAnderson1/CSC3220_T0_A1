@@ -6,7 +6,7 @@ function AddCategory(props){
   const [dataLoading, setDataLoading] = useState(true);
   const [name, setName] = useState([]); // array that holds name list
   const [currName, setCurrName] = useState(undefined); // for text input box
-  const reload=()=>window.location.reload();
+
 
   const db = SQLite.openDatabase("categories.db"); 
 
@@ -15,6 +15,7 @@ function AddCategory(props){
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER,";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -34,7 +35,7 @@ function AddCategory(props){
   
   if (dataLoading) {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>Loading categories...</Text>
       </View>
     );
@@ -43,21 +44,25 @@ function AddCategory(props){
   const addCategory = () => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "INSERT INTO categories (name) values (?)";
-      tx.executeSql(sqlcmd, [currName],
+      sqlcmd += "INSERT INTO categories (money, name) values (?,?)";
+      tx.executeSql(sqlcmd, ["0",currName],
           (_, resultSet) => {
           let existingName = [...name];
-          existingName.push({ id: resultSet.insertId, name: currName});
+          existingName.push({ id: resultSet.insertId, money: "0", name: currName});
           setName(existingName);
         })
-    },reload);
+        tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+          console.log("added 2")
+        );
+    });
   }
 
   const showCategories = () => {
-    return name.map((assObj) => {
+    return name.map(({id, money, name}) => {
       return (
-        <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
+        <View key={id} style={styles.row}> 
+          <Text>{name}</Text>
 
 
         </View>

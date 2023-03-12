@@ -66,7 +66,7 @@ function CreateTransaction(props){
   const showTransaction = () => {
     return transaction.map(({id,cat,money,date,note}) => {
       return (
-        <View style={styles.column}> 
+        <View key = {id} style={styles.column}> 
           <Text>{cat},{money}, {date}, {note}</Text>
           
         </View>
