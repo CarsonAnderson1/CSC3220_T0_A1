@@ -3,10 +3,14 @@ import { Button, StyleSheet, Text, View, Modal } from 'react-native';
 import {useState} from "react"
 import AddCategory from './CategoriesAdd';
 import Delete from './CategoriesDelete';
+//import {db} from './App.js';
+import { showCategories } from '../App';
 
 function Categories(props) {
   const[addIsVisible, setAddIsVisible] = useState(false);
   const[deleteIsVisible, setDeleteIsVisible] = useState(false);
+  
+
   function addCategory(){
     setAddIsVisible(true);
     {props.onCancelC}
@@ -67,25 +71,10 @@ function Categories(props) {
 
               <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
-                    <Text style={{fontSize: 30}}>"Testing"</Text>
+                    {showCategories()}
                 </ScrollView>
               </View>
+
           </View>
         </View>
     </Modal>

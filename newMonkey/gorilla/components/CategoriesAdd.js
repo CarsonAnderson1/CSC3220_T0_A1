@@ -1,5 +1,7 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
-import {useState} from "react"
+import {useState, useEffect} from "react"
+import { addCategory, setCurrCat } from '../App.js';
+
 function AddCategory(props){
     return(
         <Modal visible = {props.visibleA} animationType = "slide">
@@ -12,7 +14,13 @@ function AddCategory(props){
               />
             </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%"> </Button>
+                <Button
+                  title = "Confirm Creation"
+                  color= "green" 
+                  style = {styles.addButton}
+                  width = "40%"
+                  onPress={addCategory}
+                />
               </View>
           </View>
 
@@ -24,6 +32,7 @@ function AddCategory(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
+                  onChangeText={setCurrCat}
                 />
               </View>
             </View>
