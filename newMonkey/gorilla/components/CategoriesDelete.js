@@ -86,6 +86,9 @@ export default function Delete(props){
             />
           </View>
         </View>
+        <View style={styles.title}>
+          <Text style={styles.title}>Choose which category to delete</Text>
+        </View>
         <ScrollView>
           <View style = {styles.categoryStyle}> 
             {showCategories()}
@@ -100,6 +103,11 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     backgroundColor: '#1b1c1b',
+  },
+  title: {
+    color: 'white',
+    alignItems: 'center',
+    fontSize: 19,
   },
   categoryStyle: {
     paddingTop: 10,
