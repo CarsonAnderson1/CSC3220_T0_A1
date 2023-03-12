@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props, TextInput, ScrollView} from 'react-native'
 import {useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
 
@@ -57,7 +57,7 @@ function AddCategory(props){
     return name.map((assObj) => {
       return (
         <View key={assObj.id} style={styles.row}> 
-          <Text style={{color: 'white'}}>{assObj.name}</Text>
+          <Text style={{color: 'white', fontSize: 20, paddingLeft: 7}}>{assObj.name}</Text>
         </View>
       );
     });
@@ -96,8 +96,15 @@ function AddCategory(props){
             onChangeText = {setCurrName}
           />
         </View>
-        <View style = {styles.column}>
-          {showCategories()}
+        <View style={styles.currentCategories}>
+          <Text style={{color: 'white', fontSize: 20}}>Current Categories:</Text>
+          <View style={styles.scrollAdjusts}>
+            <ScrollView style={styles.scrollView}>
+              <View style = {styles.column}>
+                {showCategories()}
+              </View>
+            </ScrollView>
+          </View>
         </View>
       </View>
     </Modal>
@@ -116,8 +123,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
+    borderWidth: 2,
+    borderColor: "black",
     width: "70%",
     marginRight: 8,
     padding: 8,
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
   },
   textStyle:{
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: "normal",
     color: "white",
   },
@@ -145,6 +152,23 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 16,
     paddingBottom: 10,
-  }
+  },
+  currentCategories: {
+    paddingTop: 5,
+    paddingLeft: 16,
+  },
+  scrollView: {
+    backgroundColor: '#3a3d3a',
+    marginHorizontal: 20,
+    borderColor: 'black',
+    borderWidth: 3,
+  },
+  scrollAdjusts: {
+    height: 350,
+    width: 350,
+    paddingTop: 15,
+    paddingRight: 7,
+    paddingLeft: 30,
+  },
 });
 export default AddCategory;
