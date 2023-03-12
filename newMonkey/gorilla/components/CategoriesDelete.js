@@ -38,23 +38,33 @@ export default function Delete(props){
     );
   }
 
-  const deleteCategory = () => {
+  const deleteCategory = (id) => {
     db.transaction(tx => {
       let sqlcmd = ""; 
-      sqlcmd += "DELETE FROM categories '";
-      sqlcmd += toDelete;
-      sqlcmd += "'";
+      sqlcmd += "DELETE FROM categories WHERE id = ? ", [id];
+      //sqlcmd += toDelete;
+      //sqlcmd += "'";
 
-      tx.executeSql(sqlcmd, [toDelete],
+      tx.executeSql(sqlcmd, [id],
         (_, resultSet) => {
           if (resultSet.rowsAffected > 0) {
-            let existingName = [...name].filter(name => name != toDelete);
+            let existingName = [...name].filter(name => name.id != id);
             setName(existingName)
             setDelete(undefined);
           }
         })
     })
   }
+  const showCategories = () => {
+    return name.map((assObj) => {
+      return (
+        <View key={assObj.id} style={styles.display}> 
+          <Text>{assObj.name}</Text>
+          <Button style = {styles.deleteButton} title="delete" onPress={() => deleteCategory(assObj.id)} />
+        </View>
+      );
+    });
+  };
 
 
     return(
@@ -67,22 +77,10 @@ export default function Delete(props){
                 onPress={props.onCancelD}
               />
             </View>
-              <View style = {styles.confirmButton}>
-                <Button title = "Confirm Deletion" color= "green" style = {styles.addButton} width = "40%" onPress = {deleteCategory()}> </Button>
-              </View>
           </View>
 
-          <View style = {styles.appContainer}>
-              <View style = {styles.box}>
-                <Text style = {styles.textStyle}>
-                  Input Category to Delete
-                </Text>
-                <TextInput 
-                  style = {styles.textInput} 
-                  placeholder ="ex. groceries" 
-                  onChangeText = {setDelete}
-                />
-              </View>
+          <View style = {styles.appContainer}> 
+              {showCategories()}
             </View>
         </Modal>
         
@@ -114,6 +112,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 15,
   },
+  deleteButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 15,
+  },
   confirmButton:{
     alignItems: 'flex-start',
     paddingTop: 35,
@@ -127,5 +131,9 @@ const styles = StyleSheet.create({
   },
   box:{
     paddingBottom: 10,
+  },
+  display:{
+    flexDirection: "row"
+
   }
 });
