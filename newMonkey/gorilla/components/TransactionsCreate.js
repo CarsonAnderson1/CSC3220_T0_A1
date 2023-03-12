@@ -17,7 +17,7 @@ function CreateTransaction(props){
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS transactions";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
-      sqlcmd += "   cat TEXT),";
+      sqlcmd += "   cat TEXT,";
       sqlcmd += "   money INTEGER,";
       sqlcmd += "   date TEXT,";
       sqlcmd += "   note TEXT)";
@@ -49,23 +49,26 @@ function CreateTransaction(props){
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "INSERT INTO transactions (cat, money, date, note) values (?,?,?,?)";
-      tx.executeSql(sqlcmd, [currCat], [currMoney], [currDate], [currNote],
+      tx.executeSql(sqlcmd, [currCat, currMoney, currDate, currNote],
           (_, resultSet) => {
           let existingTransaction = [...transaction];
           existingTransaction.push({ id: resultSet.insertId, cat: currCat, money:currMoney, date: currDate, note: currNote });
           setTransaction(existingTransaction);
+          console.log("added 1")
         })
+        tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+          console.log("added 2")
+        );
     });
   }
 
   const showTransaction = () => {
     return transaction.map(({id,cat,money,date,note}) => {
       return (
-        <View key={id} style={styles.row}> 
-          <Text>{cat}</Text>
-          <Text>{money}</Text>
-          <Text>{date}</Text>
-          <Text>{note}</Text>
+        <View style={styles.column}> 
+          <Text>{cat},{money}, {date}, {note}</Text>
+          
         </View>
       );
     });
@@ -96,7 +99,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
-                  onChangeText={currCat}
+                  onChangeText={setCurrCat}
                 />
               </View>
                 <View style = {styles.box}>
@@ -106,7 +109,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. 100.49" 
-                  onChangeText={currMoney}
+                  onChangeText={setCurrMoney}
                 />
               </View>
               <View style = {styles.box}>
@@ -116,7 +119,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. 03/06/2023" 
-                  onChangeText={currDate}
+                  onChangeText={setCurrDate}
                 />
               </View>
               <View style = {styles.box}>
@@ -126,7 +129,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. dinner party" 
-                  onChangeText={currNote}
+                  onChangeText={setCurrNote}
                 />
               </View>  
               {showTransaction()}
