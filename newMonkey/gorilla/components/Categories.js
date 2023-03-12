@@ -49,7 +49,7 @@ export default function Categories(props) {
     return name.map((assObj) => {
       return (
         <View key={assObj.id}> 
-          <Text style={{fontSize: 30}}>
+          <Text style={styles.categoryStyles}>
             {assObj.name}
           </Text>
         </View>
@@ -72,7 +72,6 @@ export default function Categories(props) {
     setDeleteIsVisible(false);
   }
   
-  
   return (
     <Modal visible={props.visibleC} animationType="slide">
       <AddCategory
@@ -85,14 +84,14 @@ export default function Categories(props) {
       </Delete>
       <View style={styles.appContainer}>
         <View style={styles.homeButton}>
-            <Button
-              title="Home"
-              color='#474745'
-              onPress={props.onCancelC}
-            />
+          <Button
+            title="Home"
+            color='#474745'
+            onPress={props.onCancelC}
+          />
         </View>
         <View style={styles.title}>
-          <Text style={{fontSize: 50}}>Categories</Text>
+          <Text style={{fontSize: 50, color: 'white'}}>Categories</Text>
         </View>
         <View style={styles.rowContainer}>
           <View style={styles.buttonsContainer}>
@@ -128,7 +127,7 @@ export default function Categories(props) {
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#1b1c1b',
   },
   rowContainer: {
     flexDirection: 'row-reverse',
@@ -145,10 +144,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   scrollView: {
-    backgroundColor: '#d4d9d6',
+    backgroundColor: '#3a3d3a',
     marginHorizontal: 20,
     borderColor: '#080808',
-    borderWidth: 2,
+    borderWidth: 5,
   },
   scrollAdjusts: {
     height: 420,
@@ -168,5 +167,10 @@ const styles = StyleSheet.create({
     paddingTop: 55,
     paddingRight: 35,
     paddingLeft: 5,
+  },
+  categoryStyles: {
+    fontSize: 30,
+    color: 'white',
+    paddingLeft: 10,
   }
 });
