@@ -1,14 +1,12 @@
 import {StyleSheet, Text, View, Button, Modal, props, TextInput,Font} from 'react-native'
 import {useState, useEffect} from "react"
+import * as SQLite from "expo-sqlite";
 function CreateTransaction(props){
   const [dataLoading, setDataLoading] = useState(true);
-  const [cat, setCat] = useState([]); // array that holds name list
+  const [transaction, setTransaction] = useState([]);
   const [currCat, setCurrCat] = useState(undefined); // for text input box
-  const [money, setMoney] = useState([]); // array that holds name list
   const [currMoney, setCurrMoney] = useState(undefined); // for text input box
-  const [date, setDate] = useState([]); // array that holds name list
   const [currDate, setCurrDate] = useState(undefined); // for text input box
-  const [note, setNote] = useState([]); // array that holds name list
   const [currNote, setCurrNote] = useState(undefined); // for text input box
 
 
@@ -17,7 +15,7 @@ function CreateTransaction(props){
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS transactions";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
       sqlcmd += "   cat TEXT),";
       sqlcmd += "   money INTEGER,";
@@ -27,10 +25,10 @@ function CreateTransaction(props){
     });
 
     db.transaction(tx => {
-      let sqlcmd = "SELECT * FROM categories";
+      let sqlcmd = "SELECT * FROM transactions";
       tx.executeSql(sqlcmd, [],
         (_, resultSet) => {
-          setName(resultSet.rows._array);  // results returned
+          setTransaction(resultSet.rows._array);  // results returned
         }
       );
     });
@@ -41,87 +39,39 @@ function CreateTransaction(props){
   
   if (dataLoading) {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>Loading categories...</Text>
       </View>
     );
   }
 
-  const addCategory = () => {
+  const addTransaction = () => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "INSERT INTO categories (name) values (?)";
-      tx.executeSql(sqlcmd, [currName],
+      sqlcmd += "INSERT INTO transactions (cat, money, date, note) values (?,?,?,?)";
+      tx.executeSql(sqlcmd, [currCat], [currMoney], [currDate], [currNote],
           (_, resultSet) => {
-          let existingName = [...name];
-          existingName.push({ id: resultSet.insertId, name: currName});
-          setName(existingName);
+          let existingTransaction = [...transaction];
+          existingTransaction.push({ id: resultSet.insertId, cat: currCat, money:currMoney, date: currDate, note: currNote });
+          setTransaction(existingTransaction);
         })
     });
   }
 
-  const showCategories = () => {
-    return name.map((assObj) => {
+  const showTransaction = () => {
+    return transaction.map(({id,cat,money,date,note}) => {
       return (
-        <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
-
-
+        <View key={id} style={styles.row}> 
+          <Text>{cat}</Text>
+          <Text>{money}</Text>
+          <Text>{date}</Text>
+          <Text>{note}</Text>
         </View>
       );
     });
   };
 
 
-    return(
-      
-        <Modal visible = {props.visibleA} animationType = "slide">
-          <View style = {styles.buttons}>
-            <View style={styles.backButton}>
-              <Button
-                color = "red"
-                title = "cancel"
-                onPress={props.onCancelA}
-              />
-            </View>
-              <View style = {styles.confirmButton}>
-                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {addCategory}> </Button>
-              </View>
-          </View>
-
-          <View style = {styles.appContainer}>
-              <View style = {styles.box}>
-                <Text style = {styles.textStyle}>
-                  Input Category to Create
-                </Text>
-                <TextInput 
-                  value = {currName}
-                  style = {styles.textInput} 
-                  placeholder = "ex. groceries" 
-                  onChangeText = {setCurrName}
-                />
-              </View>
-              <View style = {styles.column}>{showCategories()}</View>
- 
-            </View>
-        </Modal>
-        
-    )
-  function handleCat(enteredCatText){
-    setCatVisible(enteredCatText);
-  }
-  function handleMon(enteredMonText){
-    setMonVisible(enteredMonText);
-  }
-  function handleDate(enteredDateText){
-    setDateVisible(enteredDateText);
-  }
-  function handleNote(enteredNoteText){
-    setNoteVisible(enteredNoteText);
-  }
-  
-
-  
     return(
         <Modal visible = {props.visibleT} animationType = "slide">
           <View style = {styles.appContainer}>
@@ -134,7 +84,7 @@ function CreateTransaction(props){
                 />
               </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Transaction" color= "green" style = {styles.addButton} width = "40%"> </Button>
+                <Button title = "Confirm Transaction" color= "green" style = {styles.addButton} width = "40%" onPress = {addTransaction}> </Button>
               </View>
             </View>
             
@@ -146,7 +96,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder ="ex. groceries" 
-                  onChangeText={handleCat}
+                  onChangeText={currCat}
                 />
               </View>
                 <View style = {styles.box}>
@@ -156,7 +106,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. 100.49" 
-                  onChangeText={handleMon}
+                  onChangeText={currMoney}
                 />
               </View>
               <View style = {styles.box}>
@@ -166,7 +116,7 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. 03/06/2023" 
-                  onChangeText={handleDate}
+                  onChangeText={currDate}
                 />
               </View>
               <View style = {styles.box}>
@@ -176,9 +126,10 @@ function CreateTransaction(props){
                 <TextInput 
                   style = {styles.textInput} 
                   placeholder="ex. dinner party" 
-                  onChangeText={handleNote}
+                  onChangeText={currNote}
                 />
               </View>  
+              {showTransaction()}
             </View>
             </View>
         </Modal>
