@@ -4,76 +4,25 @@ import { Button, StyleSheet, Text, View, TextInput, Modal, props, ScrollView} fr
 import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
 import { useState} from "react"
-import * as SQLite from "expo-sqlite";
 
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
-  const [dataLoading, setDataLoading] = useState(true);
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
-  const [categories, setCategories] = useState([]); // array that holds categories list
-  const [currCat, setCurrCat] = useState(undefined); //for the input box
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
     setModalIsVisible(true);
+    
   }
   function closeTransactionHandler(){ // Closes the "Transactions" Page
     setModalIsVisible(false);
   }
   function startCategoriesHandler(){ // Opens the "Categories" Page
     setCategoryIsVisible(true);
+    
   }
   function closeCategoriesHandler(){ // Closes the "Categories" Page
     setCategoryIsVisible(false);
   }
-
-  //DATABASE CODE PROTOTYPE
-  const db = SQLite.openDatabase("app.db");
-
-  useEffect(() => {
-    db.transaction(tx => {
-      let sqlcmd = "";
-      sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
-      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
-      sqlcmd += "   category TEXT)";
-      tx.executeSql(sqlcmd);
-    });
-
-    db.transaction(tx => {
-      let sqlcmd = "SELECT * FROM categories";
-      tx.executeSql(sqlcmd, [],
-        (_, resultSet) => {
-          setCategories(resultSet.rows._array);  // results returned
-        }
-      );
-    });
-
-    setDataLoading(false);
-     
-  }, []);  // If an empty array is passed as a parameter useEffect only runs once.
-
-  const addCategory = () => {
-    db.transaction(tx => {
-      let sqlcmd = "";
-      sqlcmd += "INSERT INTO categories (category) values (?)";
-      tx.executeSql(sqlcmd, [currCat],
-          (_, resultSet) => {
-          let existingCategories = [...categories];
-          existingCategories.push({ id: resultSet.insertId, category: currCat});
-          setCategories(existingCategories);
-        })
-    });
-  }
-
-  const showCategories = () => {
-    return categories.map((assObj) => {
-      return (
-        <View key={assObj.id}> 
-          <Text>{assObj.category}</Text>
-        </View>
-      );
-    });
-  };
-  //DATABASE CODE PROTOTYPE
 
   return (
     <View style={styles.appContainer}>
@@ -132,11 +81,8 @@ export default function App(props) {
     </View>
   );
 }
-//export {db};
-export {addCategory};
-export {showCategories};
-export {currCat};
-export {setCurrCat};
+
+
 
 const styles = StyleSheet.create({
   appContainer: {
