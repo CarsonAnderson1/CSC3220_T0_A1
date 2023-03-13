@@ -57,6 +57,28 @@ function Transactions(props){
       );
     });
   };
+
+  const deleteTransactions = () => {
+    db.transaction(tx => {
+      let sqlcmd = ""; 
+      sqlcmd += "DELETE FROM transactions"
+      tx.executeSql(sqlcmd,
+        (_, resultSet) => {
+          if (resultSet.rowsAffected > 0) {
+            let existingTransaction = [...transaction].filter(transaction => transaction.id != id);
+            setName(existingTransaction)
+            setDelete(undefined);
+          }
+        })
+    })
+    transaction.map(() => {
+        db.transaction(tx => {
+          tx.executeSql("UPDATE categories SET money = 0")
+        })
+    
+      });
+    
+  }
     function newCreateTransactionHandler(){ // Goes to "TransactionsCreate" page
       setTranIsVisible(true);
       {props.onCancel};
@@ -77,7 +99,13 @@ function Transactions(props){
             <Button 
             title = "back" 
             color = '#474745'
-            onPress = {props.onCancel}> </Button>
+            onPress = {props.onCancel}> 
+            </Button>
+            <Button 
+            title = "clear all" 
+            color = 'red'
+            onPress = {deleteTransactions}> 
+            </Button>
             </View>
               <View style = {transtyles.titleContainer}>
                  <Text style = {transtyles.title} > SafeSpending </Text>
@@ -95,6 +123,7 @@ function Transactions(props){
                     <View style={transtyles.scrollAdjusts}>
                         <ScrollView style={transtyles.scrollView}>
                           <View style = {transtyles.column}>
+                            <Text>Transaction History</Text>
                             {showTransaction()}
                           </View>
                          </ScrollView>
