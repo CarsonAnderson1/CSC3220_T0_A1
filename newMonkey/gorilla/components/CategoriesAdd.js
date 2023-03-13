@@ -51,7 +51,7 @@ function AddCategory(props){
           existingName.push({ id: resultSet.insertId, name: currName, money: 0});
           setName(existingName);
         })
-    },reload);
+    }, reload);
   }
 
   const showCategories = () => {
