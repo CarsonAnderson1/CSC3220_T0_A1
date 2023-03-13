@@ -64,18 +64,33 @@ export default function App(props) {
     );
   }
   const showCategories = () => {
-    return name.map(({id,name,money}) => {
+    updateCategories();
+    return name.map((assObj) => {
       return (
-        <View key={id} style={styles.row}> 
-          <Text>{name} {money} </Text>
+        <View key={assObj.id} style={styles.row}> 
+          <Text>{assObj.name} {assObj.money}</Text>
 
 
         </View>
       );
     });
   };
+  const updateCategories = () => {
+    return transaction.map(({cat, money}) => {
+      db.transaction(tx => {
+        tx.executeSql("UPDATE categories SET money = ? WHERE name = ?", [money, cat])
+        tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+        );
+        tx.executeSql("SELECT * from categories", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+        );
+      })
+  
+    });
+  };
   const showMoney = () => {
-    return transaction.map(({id,money}) => {
+    return transaction.map(({money}) => {
         totalMoney += money;
     });
   };
@@ -106,6 +121,7 @@ export default function App(props) {
           onCancel = {closeTransactionHandler}> 
         </Transactions>
         <View style={styles.MoneyDisplay}>
+          
           <Text style = {styles.Money}>{showMoney()}</Text>
           <Text style = {styles.Money}>{totalMoney}</Text>
           <Button

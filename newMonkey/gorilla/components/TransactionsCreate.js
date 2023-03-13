@@ -9,10 +9,13 @@ function CreateTransaction(props){
   const [currDate, setCurrDate] = useState(undefined); // for text input box
   const [currNote, setCurrNote] = useState(undefined); // for text input box
   const [money, setMoney] = useState([])
-  const [totalMoney, setTotalMoney] = useState(0);
-
+  const [name, setName] = useState([])
+  let totalMoney = 0;
   const db = SQLite.openDatabase("categories.db"); 
-
+  const updateHandler = () => {
+    {showMoney()}
+    {updateCategory()}
+  }
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
@@ -33,7 +36,14 @@ function CreateTransaction(props){
         }
       );
     });
-    
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
     setDataLoading(false);
      
   }, []);
@@ -45,9 +55,18 @@ function CreateTransaction(props){
       </View>
     );
   }
-
+  //const showMoney = () => {
+  //  return name.map(({name,money}) => {
+  //      if(name == currCat){
+  //        totalMoney = money;
+  //      }
+  //      console.log("works");
+  //  });
+  //};
+  
   const addTransaction = () => {
     if(currCat == null || currDate == undefined || currMoney == 0 || currNote == undefined){
+      <Text color = "red"> Invalid Input</Text>
       console.log("invalid addition")
     }
     else{
@@ -66,11 +85,10 @@ function CreateTransaction(props){
         );
     
     });
+    
   }
   }
 
-  
-  
   const showTransaction = () => {
     return transaction.map(({id,cat,money,date,note}) => {
       return (

@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59ebb717-107a-4bfe-8e1c-d880f02e0325" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategoriesAdd.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategoriesAdd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/CategoriesDelete.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/CategoriesDelete.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Transactions.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Transactions.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/TransactionsCreate.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/TransactionsCreate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, Modal, props} from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props, ScrollView} from 'react-native'
 import {useState, useEffect} from "react"
 import CreateTransaction from './TransactionsCreate';
 import * as SQLite from "expo-sqlite";
@@ -47,7 +47,16 @@ function Transactions(props){
         totalMoney += money;
     });
   };
-
+  const showTransaction = () => {
+    return transaction.map(({id,cat,money,date,note}) => {
+      return (
+          <View key = {id} style={transtyles.column}> 
+          <Text color = "white">{id}. Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
+          </View>
+    
+      );
+    });
+  };
     function newCreateTransactionHandler(){ // Goes to "TransactionsCreate" page
       setTranIsVisible(true);
       {props.onCancel};
@@ -75,12 +84,13 @@ function Transactions(props){
                     <View style = {transtyles.addButton}> 
                     <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> 
                     </View>
-                    {/* <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> */}
                 </View>
+                <ScrollView style={transtyles.scrollView}>
+              <View style = {transtyles.column}>
+                {showTransaction()}
+              </View>
+            </ScrollView>
             </View> 
-            {/* <View style = {transtyles.addButton}>
-                <Button title = " + " onPress = {newCreateTransactionHandler}> </Button>
-            </View> */}
         </Modal>
         
     )
@@ -136,7 +146,13 @@ const transtyles = StyleSheet.create({
     },
     transactionContainer: {
       flex: 5
-    }
+    },
+    scrollView: {
+      backgroundColor: '#3a3d3a',
+      marginHorizontal: 20,
+      borderColor: 'black',
+      borderWidth: 3,
+    },
   });
   
 export default Transactions;
