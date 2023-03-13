@@ -87,10 +87,14 @@ function CreateTransaction(props){
                 />
               </View>
               <View style = {styles.confirmButton}>
-                <Button title = "Confirm Transaction" color= "green" style = {styles.addButton} width = "40%" onPress = {addTransaction}> </Button>
+                <Button 
+                title = "Confirm" 
+                color= "green" 
+                style = {styles.addButton} 
+                width = "40%" 
+                />
               </View>
-            </View>
-            
+            </View> 
             <View style = {styles.appContainer}>
               <View style = {styles.box}>
                 <Text style = {styles.textStyle}>
@@ -101,8 +105,6 @@ function CreateTransaction(props){
                   placeholder ="ex. groceries" 
                   onChangeText={setCurrCat}
                 />
-              </View>
-                <View style = {styles.box}>
                 <Text style = {styles.textStyle}>
                   Input Money Amount  
                 </Text>
@@ -111,8 +113,6 @@ function CreateTransaction(props){
                   placeholder="ex. 100.49" 
                   onChangeText={setCurrMoney}
                 />
-              </View>
-              <View style = {styles.box}>
                 <Text style = {styles.textStyle}>
                   Input Date
                 </Text>
@@ -121,8 +121,6 @@ function CreateTransaction(props){
                   placeholder="ex. 03/06/2023" 
                   onChangeText={setCurrDate}
                 />
-              </View>
-              <View style = {styles.box}>
                 <Text style = {styles.textStyle}>
                   Input Note
                 </Text>
@@ -131,10 +129,9 @@ function CreateTransaction(props){
                   placeholder="ex. dinner party" 
                   onChangeText={setCurrNote}
                 />
-              </View>  
-              {showTransaction()}
             </View>
             </View>
+          </View>
         </Modal>
         
     )
@@ -144,20 +141,22 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     paddingTop: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
+    backgroundColor: '#1b1c1b',
   },
   backButton: {
-    flex: 2,
+    // flex: 2,
   },
   buttons: {
     flexDirection: "row",
+    justifyContent: 'space-between',
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
+    borderWidth: 2,
+    borderColor: "black",
     width: "70%",
-    marginRight: 8,
     padding: 8,
+    backgroundColor: '#3a3d3a',
   },
   backButton:{
     alignItems: 'flex-start',
@@ -166,18 +165,21 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
   confirmButton:{
-    alignItems: 'flex-start',
     paddingTop: 35,
     paddingBottom: 10,
-    paddingLeft: 30,
+    paddingLeft: 100,
   },
   textStyle:{
-    fontSize: 14,
-    fontFamily: "normal",
-    color: "black",
+    fontSize: 16,
+    color: "white",
+    paddingBottom: 10,
+    paddingTop: 10
   },
   box:{
     paddingBottom: 10,
+    flexDirection: 'column', 
+    alignItems: 'center',
+    padding: 8,
   }
   
 });

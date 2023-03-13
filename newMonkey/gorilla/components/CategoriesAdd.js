@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props, TextInput, ScrollView} from 'react-native'
 import {useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
 
@@ -57,69 +57,81 @@ function AddCategory(props){
     return name.map((assObj) => {
       return (
         <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
-
-
+          <Text style={{color: 'white', fontSize: 20, paddingLeft: 7}}>{assObj.name}</Text>
         </View>
       );
     });
   };
 
-
-    return(
-      
-        <Modal visible = {props.visibleA} animationType = "slide">
-          <View style = {styles.buttons}>
-            <View style={styles.backButton}>
+  return(
+    <Modal visible = {props.visibleA} animationType = "slide">
+      <View style = {styles.appContainer}>
+        <View style = {styles.buttons}>
+          <View style={styles.backButton}>
+            <Button
+              color = "red"
+              title = "close"
+              onPress={props.onCancelA}
+            />
+          </View>
+            <View style = {styles.confirmButton}>
               <Button
-                color = "red"
-                title = "cancel"
-                onPress={props.onCancelA}
+                title = "Confirm"
+                color= "green"
+                style = {styles.addButton}
+                width = "40%"
+                onPress = {addCategory}
               />
             </View>
-              <View style = {styles.confirmButton}>
-                <Button  title = "Confirm Creation" color= "green" style = {styles.addButton} width = "40%" onPress = {addCategory}> </Button>
+        </View>
+        <View style = {styles.box}>
+          <Text style = {styles.textStyle}>
+            Input Category to Create
+          </Text>
+          <TextInput 
+            value = {currName}
+            style = {styles.textInput}
+            placeholder = "ex. groceries"
+            placeholderTextColor={"white"}
+            onChangeText = {setCurrName}
+          />
+        </View>
+        <View style={styles.currentCategories}>
+          <Text style={{color: 'white', fontSize: 20}}>Current Categories:</Text>
+          <View style={styles.scrollAdjusts}>
+            <ScrollView style={styles.scrollView}>
+              <View style = {styles.column}>
+                {showCategories()}
               </View>
+            </ScrollView>
           </View>
-
-          <View style = {styles.appContainer}>
-              <View style = {styles.box}>
-                <Text style = {styles.textStyle}>
-                  Input Category to Create
-                </Text>
-                <TextInput 
-                  value = {currName}
-                  style = {styles.textInput} 
-                  placeholder = "ex. groceries" 
-                  onChangeText = {setCurrName}
-                />
-              </View>
-              <View style = {styles.column}>{showCategories()}</View>
- 
-            </View>
-        </Modal>
-        
-    )
+        </View>
+      </View>
+    </Modal>
+  )
 };
 
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
-    paddingTop: 10,
-    paddingHorizontal: 16,
+    backgroundColor: '#1b1c1b',
   },
   backButton: {
     flex: 2,
   },
   buttons: {
     flexDirection: "row",
+    justifyContent: 'space-between',
+    paddingRight: 10
   },
   textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
+    borderWidth: 2,
+    borderColor: "black",
     width: "70%",
     marginRight: 8,
     padding: 8,
+    color: 'white',
+    backgroundColor: '#3a3d3a',
   },
   backButton:{
     alignItems: 'flex-start',
@@ -134,12 +146,31 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
   },
   textStyle:{
-    fontSize: 14,
+    fontSize: 20,
     fontFamily: "normal",
-    color: "black",
+    color: "white",
   },
   box:{
+    paddingTop: 10,
+    paddingHorizontal: 16,
     paddingBottom: 10,
-  }
+  },
+  currentCategories: {
+    paddingTop: 5,
+    paddingLeft: 16,
+  },
+  scrollView: {
+    backgroundColor: '#3a3d3a',
+    marginHorizontal: 20,
+    borderColor: 'black',
+    borderWidth: 3,
+  },
+  scrollAdjusts: {
+    height: 350,
+    width: 350,
+    paddingTop: 15,
+    paddingRight: 7,
+    paddingLeft: 30,
+  },
 });
 export default AddCategory;

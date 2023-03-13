@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Button, Modal, props, TextInput} from 'react-native'
+import {StyleSheet, Text, View, Button, Modal, props, ScrollView} from 'react-native'
 import {useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
 export default function Delete(props){
@@ -55,41 +55,61 @@ export default function Delete(props){
         })
     })
   }
+
   const showCategories = () => {
     return name.map((assObj) => {
       return (
         <View key={assObj.id} style={styles.display}> 
-          <Text>{assObj.name}</Text>
-          <Button style = {styles.deleteButton} title="delete" onPress={() => deleteCategory(assObj.id)} />
+          <Text style={styles.textStyle}>
+            {assObj.name}
+          </Text>
+          <Button
+            style = {styles.deleteButton}
+            color= 'red'
+            title="delete"
+            onPress={() => deleteCategory(assObj.id)}
+          />
         </View>
       );
     });
   };
 
-
-    return(
-        <Modal visible = {props.visibleD} animationType = "slide">
-          <View style = {styles.buttons}>
-            <View style={styles.backButton}>
-              <Button
-                color = "red"
-                title = "cancel"
-                onPress={props.onCancelD}
-              />
-            </View>
+  return(
+    <Modal visible = {props.visibleD} animationType = "slide">
+      <View style={styles.appContainer}>
+        <View style = {styles.buttons}>
+          <View style={styles.backButton}>
+            <Button
+              color = "red"
+              title = "close"
+              onPress={props.onCancelD}
+            />
           </View>
-
-          <View style = {styles.appContainer}> 
-              {showCategories()}
-            </View>
-        </Modal>
-        
-    )
-    
+        </View>
+        <View style={styles.title}>
+          <Text style={styles.title}>Choose which category to delete</Text>
+        </View>
+        <ScrollView>
+          <View style = {styles.categoryStyle}> 
+            {showCategories()}
+          </View>
+        </ScrollView>
+      </View>
+    </Modal>
+  )  
 };
+
 const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
+    backgroundColor: '#1b1c1b',
+  },
+  title: {
+    color: 'white',
+    alignItems: 'center',
+    fontSize: 19,
+  },
+  categoryStyle: {
     paddingTop: 10,
     paddingHorizontal: 16,
   },
@@ -99,20 +119,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    width: "70%",
-    marginRight: 8,
-    padding: 8,
-  },
   backButton:{
-    alignItems: 'flex-start',
-    paddingTop: 35,
-    paddingBottom: 10,
-    paddingLeft: 15,
-  },
-  deleteButton:{
     alignItems: 'flex-start',
     paddingTop: 35,
     paddingBottom: 10,
@@ -124,16 +131,25 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 30,
   },
-  textStyle:{
-    fontSize: 14,
-    fontFamily: "normal",
-    color: "black",
-  },
   box:{
     paddingBottom: 10,
   },
+  deleteButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 15,
+  },
   display:{
-    flexDirection: "row"
-
+    flexDirection: "row",
+    borderWidth: 1,
+    backgroundColor: '#3a3d3a',
+    borderRadius: 10,
+  },
+  textStyle:{
+    fontSize: 20,
+    paddingRight: 225,
+    color: "white",
+    paddingLeft: 4,
   }
 });

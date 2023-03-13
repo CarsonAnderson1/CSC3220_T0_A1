@@ -19,29 +19,36 @@ function Transactions(props){
             visibleT = {tranIsVisible}
             onCancelT = {closeNewTransactionHandler}>
           </CreateTransaction>
-          <View style = {transtyles.backButton}>
-          <Button title = "back" onPress = {props.onCancel}> </Button>
-          </View>
-            <View style = {transtyles.titleContainer}>
-                <Text style = {transtyles.title} > SafeSpending </Text>
-                <View style = {transtyles.subTitleContainer}> 
-                    <Text style = {transtyles.subtitleSizing}> $ </Text>
-                    <Text style = {transtyles.subtitleSizing}> 2000.00 </Text>
-                    <View style = {transtyles.addButton}> 
-                    <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> 
-                    </View>
-                    {/* <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> */}
-                </View>
-            </View> 
-            {/* <View style = {transtyles.addButton}>
-                <Button title = " + " onPress = {newCreateTransactionHandler}> </Button>
-            </View> */}
+          <View style = {transtyles.pageContainer}>
+            <View style = {transtyles.backButton}>
+            <Button 
+            title = "back" 
+            color = '#474745'
+            onPress = {props.onCancel}> </Button>
+            </View>
+              <View style = {transtyles.titleContainer}>
+                 <Text style = {transtyles.title} > SafeSpending </Text>
+                  <View style = {transtyles.subTitleContainer}> 
+                      <Text style = {transtyles.subtitleSizing}> $ </Text>
+                      <Text style = {transtyles.subtitleSizing}> 2000.00 </Text>
+                      <View style = {transtyles.addButton}> 
+                      <Button 
+                      title = " + " 
+                      color = '#10eb18'
+                      onPress= {newCreateTransactionHandler}> </Button> 
+                      </View>
+                  </View>
+              </View> 
+            </View>
         </Modal>
         
     )
 };
 const transtyles = StyleSheet.create({
-    
+    pageContainer: {
+    backgroundColor: '#1b1c1b',
+    flex: 1,
+    },
     titleContainer: {
         flex: 5,
         flexDirection: 'column',
@@ -52,6 +59,7 @@ const transtyles = StyleSheet.create({
     title:{
       fontSize: 45,
       fontWeight: 600,
+      color: 'white',
     },
     subTitleContainer:{
         flexDirection: 'row',
@@ -61,7 +69,7 @@ const transtyles = StyleSheet.create({
     subtitleSizing:{
         fontSize: 40,
         fontWeight: 500,
-        // backgroundColor: 'red',
+        color: 'white'
     },
     backButton:{
         alignItems: 'flex-start',
