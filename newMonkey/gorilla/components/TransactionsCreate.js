@@ -117,6 +117,7 @@ function CreateTransaction(props){
                 color= "green" 
                 style = {styles.addButton} 
                 width = "40%" 
+                onPress = {addTransaction}
                 />
               </View>
             </View> 

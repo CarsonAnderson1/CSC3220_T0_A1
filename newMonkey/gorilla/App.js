@@ -144,6 +144,7 @@ export default function App(props) {
       </View>
       <View style={styles.CategoriesContainer}>
         <View style={styles.scrollAdjusts}>
+                {updateCategories()}
                 <ScrollView style={styles.scrollView}>
                  {showCategories()}
                 </ScrollView>

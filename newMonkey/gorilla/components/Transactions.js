@@ -91,7 +91,14 @@ function Transactions(props){
                       color = '#10eb18'
                       onPress= {newCreateTransactionHandler}> </Button> 
                       </View>
-                  </View>
+                    </View>
+                    <View style={transtyles.scrollAdjusts}>
+                        <ScrollView style={transtyles.scrollView}>
+                          <View style = {transtyles.column}>
+                            {showTransaction()}
+                          </View>
+                         </ScrollView>
+                      </View>
               </View> 
             </View>
         </Modal>
