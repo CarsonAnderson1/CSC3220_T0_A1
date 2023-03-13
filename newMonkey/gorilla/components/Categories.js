@@ -20,6 +20,7 @@ export default function Categories(props) {
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER,";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -39,7 +40,7 @@ export default function Categories(props) {
   
   if (dataLoading) {
     return (
-      <View style={styles.container}>
+      <View>
         <Text>Loading categories...</Text>
       </View>
     );
@@ -50,7 +51,7 @@ export default function Categories(props) {
       return (
         <View key={assObj.id}> 
           <Text style={styles.categoryStyles}>
-            {assObj.name}
+            {assObj.name} { "$" }{assObj.money}
           </Text>
         </View>
       );

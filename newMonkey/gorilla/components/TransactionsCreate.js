@@ -8,7 +8,8 @@ function CreateTransaction(props){
   const [currMoney, setCurrMoney] = useState(undefined); // for text input box
   const [currDate, setCurrDate] = useState(undefined); // for text input box
   const [currNote, setCurrNote] = useState(undefined); // for text input box
-
+  const [money, setMoney] = useState([])
+  const [totalMoney, setTotalMoney] = useState(0);
 
   const db = SQLite.openDatabase("categories.db"); 
 
@@ -32,7 +33,7 @@ function CreateTransaction(props){
         }
       );
     });
-
+    
     setDataLoading(false);
      
   }, []);
@@ -59,16 +60,17 @@ function CreateTransaction(props){
           let existingTransaction = [...transaction];
           existingTransaction.push({ id: resultSet.insertId, cat: currCat, money:currMoney, date: currDate, note: currNote });
           setTransaction(existingTransaction);
-          console.log("added 1")
         })
         tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
           console.log(JSON.stringify(rows)),
-          console.log("added 2")
         );
+    
     });
   }
   }
 
+  
+  
   const showTransaction = () => {
     return transaction.map(({id,cat,money,date,note}) => {
       return (
@@ -79,7 +81,6 @@ function CreateTransaction(props){
       );
     });
   };
-
 
     return(
         <Modal visible = {props.visibleT} animationType = "slide">

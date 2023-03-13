@@ -10,15 +10,16 @@ export default function App(props) {
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
   const [name, setName] = useState([]); // array that holds name list
-
-
+  const [transaction, setTransaction] = useState([]);
   const db = SQLite.openDatabase("categories.db"); 
+  let totalMoney = 0;
 
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER,";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -32,6 +33,25 @@ export default function App(props) {
       );
     });
 
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS transactions";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   cat TEXT,";
+      sqlcmd += "   money INT,";
+      sqlcmd += "   date TEXT,";
+      sqlcmd += "   note TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM transactions";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setTransaction(resultSet.rows._array);  // results returned
+        }
+      );
+    });
     setDataLoading(false);
      
   }, []);
@@ -44,14 +64,19 @@ export default function App(props) {
     );
   }
   const showCategories = () => {
-    return name.map((assObj) => {
+    return name.map(({id,name,money}) => {
       return (
-        <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
+        <View key={id} style={styles.row}> 
+          <Text>{name} {money} </Text>
 
 
         </View>
       );
+    });
+  };
+  const showMoney = () => {
+    return transaction.map(({id,money}) => {
+        totalMoney += money;
     });
   };
 
@@ -81,7 +106,8 @@ export default function App(props) {
           onCancel = {closeTransactionHandler}> 
         </Transactions>
         <View style={styles.MoneyDisplay}>
-          <Text style = {styles.Money}>$2000.00</Text>
+          <Text style = {styles.Money}>{showMoney()}</Text>
+          <Text style = {styles.Money}>{totalMoney}</Text>
           <Button
             style={styles.InputButton}
             title = "+/-" 

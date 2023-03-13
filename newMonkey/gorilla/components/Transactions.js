@@ -5,48 +5,46 @@ import * as SQLite from "expo-sqlite";
 function Transactions(props){
   const [tranIsVisible, setTranIsVisible] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
-  const [money, setMoney] = useState([]); // array that holds name list
-  const [currMoney, setCurrMoney] = useState(undefined); // for text input box
-  const reload=()=>window.location.reload();
+  const [transaction, setTransaction] = useState([]);
 
   const db = SQLite.openDatabase("categories.db"); 
-
+  let totalMoney = 0;
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "CREATE TABLE IF NOT EXISTS money";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS transactions";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
-      sqlcmd += "   money INTEGER)";
+      sqlcmd += "   cat TEXT,";
+      sqlcmd += "   money INT,";
+      sqlcmd += "   date TEXT,";
+      sqlcmd += "   note TEXT)";
       tx.executeSql(sqlcmd);
     });
 
     db.transaction(tx => {
-      let sqlcmd = "SELECT * FROM money";
+      let sqlcmd = "SELECT * FROM transactions";
       tx.executeSql(sqlcmd, [],
         (_, resultSet) => {
-          setMoney(resultSet.rows._array);  // results returned
+          setTransaction(resultSet.rows._array);  // results returned
         }
       );
     });
-
     setDataLoading(false);
      
   }, []);
+
   
   if (dataLoading) {
     return (
       <View>
-        <Text>Loading money...</Text>
+        <Text>Loading categories...</Text>
       </View>
     );
   }
+
   const showMoney = () => {
-    return money.map(({id, money}) => {
-      return (
-        <View key={id} style={transtyles.row}> 
-          <Text>{money}</Text>
-        </View>
-      );
+    return transaction.map(({id,money}) => {
+        totalMoney += money;
     });
   };
 
@@ -73,6 +71,7 @@ function Transactions(props){
                 <View style = {transtyles.subTitleContainer}> 
                     <Text style = {transtyles.subtitleSizing}> $ </Text>
                     <Text style = {transtyles.subtitleSizing}> {showMoney()} </Text>
+                    <Text style = {transtyles.subtitleSizing}> {totalMoney} </Text>
                     <View style = {transtyles.addButton}> 
                     <Button title = " + " onPress= {newCreateTransactionHandler}> </Button> 
                     </View>
