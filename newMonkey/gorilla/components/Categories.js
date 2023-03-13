@@ -35,7 +35,7 @@ export default function Categories(props) {
 
     setDataLoading(false);
      
-  }, []);
+  }, [[addIsVisible, setAddIsVisible]]);
   
   if (dataLoading) {
     return (
