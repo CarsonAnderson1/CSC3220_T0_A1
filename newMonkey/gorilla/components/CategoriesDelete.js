@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textStyle:{
-    fontSize: 30,
+    fontSize: 20,
     paddingRight: 225,
     color: "white",
-    paddingLeft: 7,
+    paddingLeft: 4,
   }
 });

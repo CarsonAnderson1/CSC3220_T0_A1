@@ -1,4 +1,3 @@
-
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TextInput, Modal, props, ScrollView} from 'react-native';
 import Transactions from "./components/Transactions.js"
@@ -26,7 +25,6 @@ export default function App(props) {
 
   return (
     <View style={styles.appContainer}>
-      <StatusBar style='auto'/>
       <View style={styles.TitleContainer}>
         <Text style={styles.Title}>SafeSpending</Text>
       </View>
@@ -34,26 +32,30 @@ export default function App(props) {
           visible = {modalIsVisible} 
           onCancel = {closeTransactionHandler}> 
         </Transactions>
-        <View style={styles.MoneyDisplay}>
-          <Text style = {styles.Money}>$2000.00</Text>
+      <View style={styles.MoneyDisplay}>
+          <Text style = {styles.Money}>$ 2000.00 </Text>
+          <View style ={styles.InputButton}>
           <Button
-            style={styles.InputButton}
             title = "+/-" 
             onPress = {startTransactionHandler} 
-            color = "black"
-          ></Button>
-        </View>
+            color = "#10eb18">
+            </Button>
+          </View>
+      </View>
+      <Categories
+        visibleC = {categoryIsVisible}
+        onCancelC = {closeCategoriesHandler}>
+      </Categories>
 
-        <Categories
-          visibleC = {categoryIsVisible}
-          onCancelC = {closeCategoriesHandler}>
-        </Categories>
-        <Button
+      <View style = {styles.CategoriesButton}>
+        <Button 
           title = "Categories"
-          onPress={startCategoriesHandler}
-        ></Button>
+          color = 'red'
+          onPress={startCategoriesHandler}>
+        </Button>
+      </View>
       <View style={styles.CategoriesContainer}>
-      <View style={styles.scrollAdjusts}>
+        <View style={styles.scrollAdjusts}>
                 <ScrollView style={styles.scrollView}>
                   <View style = {styles.CategoryMoney}>
                     <Text style={{fontSize: 20}}>Groceries</Text>
@@ -83,51 +85,60 @@ export default function App(props) {
 }
 
 
-
 const styles = StyleSheet.create({
   appContainer: {
-    flex: 6,
-    backgroundColor: 'grey'
+    flex: 1,
+    backgroundColor: '#1b1c1b'
   },
   TitleContainer: {
-    flex: 1,
-    paddingTop: 30,
+    paddingTop: 70,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
   Title: {
-    fontSize: 30,
+    fontSize: 50,
+    fontWeight: 500,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+    color: 'white'
   },
- 
   MoneyDisplay: {
     justifyContent:'flex-start',
-    flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 24,
-    borderBottomWidth: 1,
-    borderBottomColor: "#cccccc"
   },
   Money: {
     fontSize: 50,
     fontWeight: "medium",
+    color: 'white',
   },
   InputButton: {
-    justifyContent:'flex-end',
-    alignItems: 'flex-end',
+    justifyContent:'center',
+    alignItems: 'center',
+    width: 60,
+    height: 60,
+    borderRadius: 100,
   },
   CategoriesContainer: {
-    flex: 2,
     backgroundColor: 'white',
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   CategoriesButton: {
-    position: 'relative',
+    paddingTop: 15,
+    paddingLeft: 40,
+    paddingRight: 40,
+    // width: 100,
+    // height: 100,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // padding: 10,
+    // borderRadius: 100,
+    // backgroundColor: 'orange',
   },
   CategoryMoney: {
-    flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
 

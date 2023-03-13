@@ -76,7 +76,7 @@ function AddCategory(props){
           </View>
             <View style = {styles.confirmButton}>
               <Button
-                title = "Confirm Creation"
+                title = "Confirm"
                 color= "green"
                 style = {styles.addButton}
                 width = "40%"
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
+    justifyContent: 'space-between',
+    paddingRight: 10
   },
   textInput: {
     borderWidth: 2,
