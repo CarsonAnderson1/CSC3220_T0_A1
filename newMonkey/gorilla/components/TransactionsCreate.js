@@ -8,10 +8,14 @@ function CreateTransaction(props){
   const [currMoney, setCurrMoney] = useState(undefined); // for text input box
   const [currDate, setCurrDate] = useState(undefined); // for text input box
   const [currNote, setCurrNote] = useState(undefined); // for text input box
-
-
+  const [money, setMoney] = useState([])
+  const [name, setName] = useState([])
+  let totalMoney = 0;
   const db = SQLite.openDatabase("categories.db"); 
-
+  const updateHandler = () => {
+    {showMoney()}
+    {updateCategory()}
+  }
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
@@ -32,7 +36,14 @@ function CreateTransaction(props){
         }
       );
     });
-
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM categories";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setName(resultSet.rows._array);  // results returned
+        }
+      );
+    });
     setDataLoading(false);
      
   }, []);
@@ -44,23 +55,38 @@ function CreateTransaction(props){
       </View>
     );
   }
-
+  //const showMoney = () => {
+  //  return name.map(({name,money}) => {
+  //      if(name == currCat){
+  //        totalMoney = money;
+  //      }
+  //      console.log("works");
+  //  });
+  //};
+  
   const addTransaction = () => {
+    if(currCat == null || currDate == undefined || currMoney == 0 || currNote == undefined){
+      <Text color = "red"> Invalid Input</Text>
+      console.log("invalid addition")
+    }
+    else{
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "INSERT INTO transactions (cat, money, date, note) values (?,?,?,?)";
+      
       tx.executeSql(sqlcmd, [currCat, currMoney, currDate, currNote],
           (_, resultSet) => {
           let existingTransaction = [...transaction];
           existingTransaction.push({ id: resultSet.insertId, cat: currCat, money:currMoney, date: currDate, note: currNote });
           setTransaction(existingTransaction);
-          console.log("added 1")
         })
         tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
           console.log(JSON.stringify(rows)),
-          console.log("added 2")
         );
+    
     });
+    
+  }
   }
 
   const showTransaction = () => {
@@ -73,7 +99,6 @@ function CreateTransaction(props){
       );
     });
   };
-
 
     return(
         <Modal visible = {props.visibleT} animationType = "slide">

@@ -14,7 +14,8 @@ function AddCategory(props){
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
-      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,"
+      sqlcmd += "   money INTEGER,";;
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -43,11 +44,11 @@ function AddCategory(props){
   const addCategory = () => {
     db.transaction(tx => {
       let sqlcmd = "";
-      sqlcmd += "INSERT INTO categories (name) values (?)";
+      sqlcmd += "INSERT INTO categories (money, name) values (0, ?)";
       tx.executeSql(sqlcmd, [currName],
           (_, resultSet) => {
           let existingName = [...name];
-          existingName.push({ id: resultSet.insertId, name: currName});
+          existingName.push({ id: resultSet.insertId, name: currName, money: 0});
           setName(existingName);
         })
     },reload);

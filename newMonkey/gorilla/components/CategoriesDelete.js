@@ -13,6 +13,7 @@ export default function Delete(props){
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER,";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -63,12 +64,13 @@ export default function Delete(props){
           <Text style={styles.textStyle}>
             {assObj.name}
           </Text>
-          <Button
-            style = {styles.deleteButton}
-            color= 'red'
-            title="delete"
-            onPress={() => deleteCategory(assObj.id)}
-          />
+          <View style={styles.deleteButton}>
+            <Button
+              color= 'red'
+              title="delete"
+              onPress={() => deleteCategory(assObj.id)}
+            />
+          </View>
         </View>
       );
     });
@@ -135,10 +137,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   deleteButton:{
-    alignItems: 'flex-start',
-    paddingTop: 35,
-    paddingBottom: 10,
-    paddingLeft: 15,
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    paddingLeft: 300,
+    paddingBottom: 2.5,
   },
   display:{
     flexDirection: "row",
@@ -147,6 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   textStyle:{
+    fontSize: 30,
     fontSize: 20,
     paddingRight: 225,
     color: "white",

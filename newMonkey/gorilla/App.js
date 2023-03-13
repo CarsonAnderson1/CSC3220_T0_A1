@@ -1,3 +1,4 @@
+
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TextInput, Modal, props, ScrollView} from 'react-native';
 import Transactions from "./components/Transactions.js"
@@ -9,15 +10,16 @@ export default function App(props) {
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
   const [name, setName] = useState([]); // array that holds name list
-
-
+  const [transaction, setTransaction] = useState([]);
   const db = SQLite.openDatabase("categories.db"); 
+  let totalMoney = 0;
 
   useEffect(() => {
     db.transaction(tx => {
       let sqlcmd = "";
       sqlcmd += "CREATE TABLE IF NOT EXISTS categories";
       sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   money INTEGER,";
       sqlcmd += "   name TEXT)";
       tx.executeSql(sqlcmd);
     });
@@ -31,6 +33,25 @@ export default function App(props) {
       );
     });
 
+    db.transaction(tx => {
+      let sqlcmd = "";
+      sqlcmd += "CREATE TABLE IF NOT EXISTS transactions";
+      sqlcmd += "  (id INTEGER PRIMARY KEY AUTOINCREMENT,";
+      sqlcmd += "   cat TEXT,";
+      sqlcmd += "   money INT,";
+      sqlcmd += "   date TEXT,";
+      sqlcmd += "   note TEXT)";
+      tx.executeSql(sqlcmd);
+    });
+
+    db.transaction(tx => {
+      let sqlcmd = "SELECT * FROM transactions";
+      tx.executeSql(sqlcmd, [],
+        (_, resultSet) => {
+          setTransaction(resultSet.rows._array);  // results returned
+        }
+      );
+    });
     setDataLoading(false);
      
   }, []);
@@ -43,14 +64,34 @@ export default function App(props) {
     );
   }
   const showCategories = () => {
+    updateCategories();
     return name.map((assObj) => {
       return (
         <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name}</Text>
+          <Text>{assObj.name} {assObj.money}</Text>
 
 
         </View>
       );
+    });
+  };
+  const updateCategories = () => {
+    return transaction.map(({cat, money}) => {
+      db.transaction(tx => {
+        tx.executeSql("UPDATE categories SET money = ? WHERE name = ?", [money, cat])
+        tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+        );
+        tx.executeSql("SELECT * from categories", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows)),
+        );
+      })
+  
+    });
+  };
+  const showMoney = () => {
+    return transaction.map(({money}) => {
+        totalMoney += money;
     });
   };
 
@@ -78,8 +119,9 @@ export default function App(props) {
           visible = {modalIsVisible} 
           onCancel = {closeTransactionHandler}> 
         </Transactions>
-      <View style={styles.MoneyDisplay}>
-          <Text style = {styles.Money}>$ 2000.00 </Text>
+        <View style={styles.MoneyDisplay}>
+          <Text style = {styles.Money}> {showMoney()} </Text>
+          <Text style = {styles.Money}>$ {totalMoney} </Text>
           <View style ={styles.InputButton}>
           <Button
             title = "+/-" 
