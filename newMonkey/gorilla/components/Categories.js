@@ -1,4 +1,3 @@
-
 import { Button, StyleSheet, Text, View, Modal, ScrollView} from 'react-native';
 import {useState, useEffect} from "react"
 import AddCategory from './CategoriesAdd';
