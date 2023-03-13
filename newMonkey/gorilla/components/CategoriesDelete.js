@@ -64,12 +64,13 @@ export default function Delete(props){
           <Text style={styles.textStyle}>
             {assObj.name}
           </Text>
-          <Button
-            style = {styles.deleteButton}
-            color= 'red'
-            title="delete"
-            onPress={() => deleteCategory(assObj.id)}
-          />
+          <View style={styles.deleteButton}>
+            <Button
+              color= 'red'
+              title="delete"
+              onPress={() => deleteCategory(assObj.id)}
+            />
+          </View>
         </View>
       );
     });
@@ -136,10 +137,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   deleteButton:{
-    alignItems: 'flex-start',
-    paddingTop: 35,
-    paddingBottom: 10,
-    paddingLeft: 15,
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    paddingLeft: 300,
+    paddingBottom: 2.5,
   },
   display:{
     flexDirection: "row",
@@ -149,7 +151,6 @@ const styles = StyleSheet.create({
   },
   textStyle:{
     fontSize: 30,
-    paddingRight: 225,
     color: "white",
     paddingLeft: 7,
   }
