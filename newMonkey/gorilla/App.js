@@ -54,7 +54,7 @@ export default function App(props) {
     });
     setDataLoading(false);
      
-  }, []);
+  }, [categoryIsVisible, setCategoryIsVisible], [transaction, setTransaction]);
   
   if (dataLoading) {
     return (
@@ -67,10 +67,10 @@ export default function App(props) {
     updateCategories();
     return name.map((assObj) => {
       return (
-        <View key={assObj.id} style={styles.row}> 
-          <Text>{assObj.name} {assObj.money}</Text>
-
-
+        <View key={assObj.id}> 
+          <Text style={styles.CategoryStyles}>
+            {assObj.name} { "$" }{assObj.money}
+          </Text>
         </View>
       );
     });
@@ -115,40 +115,42 @@ export default function App(props) {
       <View style={styles.TitleContainer}>
         <Text style={styles.Title}>SafeSpending</Text>
       </View>
-        <Transactions 
-          visible = {modalIsVisible} 
-          onCancel = {closeTransactionHandler}> 
-        </Transactions>
-        <View style={styles.MoneyDisplay}>
-          <Text style = {styles.Money}> {showMoney()} </Text>
-          <Text style = {styles.Money}>$ {totalMoney} </Text>
-          <View style ={styles.InputButton}>
+      <Transactions 
+        visible = {modalIsVisible} 
+        onCancel = {closeTransactionHandler}> 
+      </Transactions>
+      <View style={styles.MoneyDisplay}>
+        <Text style = {styles.Money}>
+          {showMoney()}
+        </Text>
+        <Text style = {styles.Money}>
+          $ {totalMoney}
+        </Text>
+        <View style ={styles.InputButton}>
           <Button
             title = "+/-" 
             onPress = {startTransactionHandler} 
             color = "#10eb18">
-            </Button>
-          </View>
+          </Button>
+        </View>
       </View>
       <Categories
         visibleC = {categoryIsVisible}
         onCancelC = {closeCategoriesHandler}>
       </Categories>
-
       <View style = {styles.CategoriesButton}>
         <Button 
           title = "Categories"
           color = 'red'
-          onPress={startCategoriesHandler}>
-        </Button>
+          onPress={startCategoriesHandler}/>
       </View>
       <View style={styles.CategoriesContainer}>
         <View style={styles.scrollAdjusts}>
-                {updateCategories()}
-                <ScrollView style={styles.scrollView}>
-                 {showCategories()}
-                </ScrollView>
-                </View>
+          {updateCategories()}
+          <ScrollView style={styles.scrollView}>
+            {showCategories()}
+          </ScrollView>
+        </View>
       </View>
     </View>
   );
@@ -178,6 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 24,
+    paddingTop: 15,
   },
   Money: {
     fontSize: 50,
@@ -191,26 +194,31 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 100,
   },
-  CategoriesContainer: {
-    backgroundColor: 'white',
-    paddingLeft: 40,
-    paddingRight: 40,
-  },
   CategoriesButton: {
     paddingTop: 15,
     paddingLeft: 40,
     paddingRight: 40,
-    // width: 100,
-    // height: 100,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // padding: 10,
-    // borderRadius: 100,
-    // backgroundColor: 'orange',
   },
   CategoryMoney: {
     flexDirection: "row",
     justifyContent: "space-between",
-
-  }
+  },
+  CategoryStyles: {
+    color: 'white',
+    paddingLeft: 7,
+    paddingTop: 5,
+  },
+  scrollView: {
+    backgroundColor: '#3a3d3a',
+    marginHorizontal: 20,
+    borderColor: '#080808',
+    borderWidth: 5,
+  },
+  scrollAdjusts: {
+    height: 270,
+    width: 390,
+    paddingTop: 5,
+    paddingRight: 10,
+    paddingLeft: 10,
+  },
 });

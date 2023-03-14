@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   },
   textStyle:{
     fontSize: 20,
-    fontFamily: "normal",
     color: "white",
   },
   box:{
