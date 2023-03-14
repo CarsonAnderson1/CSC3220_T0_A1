@@ -67,7 +67,7 @@ export default function Delete(props){
           <View style={styles.deleteButton}>
             <Button
               color= 'red'
-              title="delete"
+              title="Delete"
               onPress={() => deleteCategory(assObj.id)}
             />
           </View>
@@ -102,56 +102,56 @@ export default function Delete(props){
 };
 
 const styles = StyleSheet.create({
-appContainer: {
-  flex: 1,
-  backgroundColor: '#1b1c1b',
-},
-title: {
-  color: 'white',
-  alignItems: 'center',
-  fontSize: 19,
-},
-categoryStyle: {
-  paddingTop: 10,
-  paddingHorizontal: 16,
-},
-backButton: {
-  flex: 2,
-},
-buttons: {
-  flexDirection: "row",
-},
-backButton:{
-  alignItems: 'flex-start',
-  paddingTop: 35,
-  paddingBottom: 10,
-  paddingLeft: 15,
-},
-confirmButton:{
-  alignItems: 'flex-start',
-  paddingTop: 35,
-  paddingBottom: 10,
-  paddingLeft: 30,
-},
-box:{
-  paddingBottom: 10,
-},
-deleteButton:{
-  position: 'absolute',
-  alignSelf: 'flex-end',
-  alignItems: 'flex-end',
-  paddingLeft: 300,
-  paddingBottom: 2.5,
-},
-display:{
-  flexDirection: "row",
-  borderWidth: 1,
-  backgroundColor: '#3a3d3a',
-  borderRadius: 10,
-},
-textStyle:{
-  fontSize: 30,
-  color: "white",
-  paddingLeft: 7,
-}
+  appContainer: {
+    flex: 1,
+    backgroundColor: '#1b1c1b',
+  },
+  title: {
+    color: 'white',
+    alignItems: 'center',
+    fontSize: 19,
+  },
+  categoryStyle: {
+    paddingTop: 10,
+    paddingHorizontal: 16,
+  },
+  backButton: {
+    flex: 2,
+  },
+  buttons: {
+    flexDirection: "row",
+  },
+  backButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 15,
+  },
+  confirmButton:{
+    alignItems: 'flex-start',
+    paddingTop: 35,
+    paddingBottom: 10,
+    paddingLeft: 30,
+  },
+  box:{
+    paddingBottom: 10,
+  },
+  deleteButton:{
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
+    paddingLeft: 290,
+    paddingBottom: 2.5,
+  },
+  display:{
+    flexDirection: "row",
+    borderWidth: 1,
+    backgroundColor: '#3a3d3a',
+    borderRadius: 10,
+  },
+  textStyle:{
+    fontSize: 30,
+    color: "white",
+    paddingLeft: 7,
+  }
 });
