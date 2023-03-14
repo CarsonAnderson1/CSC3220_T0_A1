@@ -97,14 +97,16 @@ function Transactions(props){
           <View style = {transtyles.pageContainer}>
             <View style = {transtyles.buttons}>
               <Button 
-              title = "back" 
+              title = "Back" 
               color = '#474745'
-              onPress = {props.onCancel}> 
+              onPress = {props.onCancel}
+              style={{paddingLeft: 10}}> 
               </Button>
               <Button 
-              title = "clear all" 
+              title = "Clear All" 
               color = 'red'
-              onPress = {deleteTransactions}> 
+              onPress = {deleteTransactions}
+              style={{paddingRight: 10}}> 
               </Button>
             </View>
               <View style = {transtyles.titleContainer}>
