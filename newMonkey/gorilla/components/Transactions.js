@@ -51,7 +51,7 @@ function Transactions(props){
     return transaction.map(({id,cat,money,date,note}) => {
       return (
           <View key = {id} style={transtyles.column}> 
-          <Text color = "white">Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
+            <Text color = "white">Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
           </View>
     
       );
