@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     width: 390,
     paddingTop: 40,
     paddingRight: 10,
-    paddingLeft: 40,
+    paddingLeft: 70,
   },
   addButton: {
     alignItems: 'flex-end',

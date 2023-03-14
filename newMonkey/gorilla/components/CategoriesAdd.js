@@ -71,7 +71,7 @@ function AddCategory(props){
           <View style={styles.backButton}>
             <Button
               color = "red"
-              title = "close"
+              title = "Close"
               onPress={props.onCancelA}
             />
           </View>
