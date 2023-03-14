@@ -52,7 +52,7 @@ function Transactions(props){
     return transaction.map(({id,cat,money,date,note}) => {
       return (
           <View key = {id} style={transtyles.column}> 
-            <Text color = "white">Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
+            <Text style={{color: 'white', paddingLeft: 7}}>Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
           </View>
       );
     });
@@ -123,7 +123,7 @@ function Transactions(props){
               </View>  
               <View style={transtyles.transactionContainer}>
                 <ScrollView style={transtyles.scrollView}>
-                    <Text>Transaction History:</Text>
+                    <Text style={{color: 'white', paddingLeft: 7, paddingTop: 5}}>Transaction History:</Text>
                     {showTransaction()}
                 </ScrollView>
               </View>

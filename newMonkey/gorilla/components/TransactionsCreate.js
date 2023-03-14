@@ -107,7 +107,7 @@ function CreateTransaction(props){
               <View style={styles.backButton}>
                 <Button
                   color = "red"
-                  title = "cancel"
+                  title = "Close"
                   onPress={props.onCancelT}
                 />
               </View>
@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
     width: "70%",
     padding: 8,
     backgroundColor: '#3a3d3a',
+    color: 'white'
   },
   backButton:{
     alignItems: 'flex-start',
