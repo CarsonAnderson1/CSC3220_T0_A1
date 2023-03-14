@@ -5,6 +5,7 @@ import Transactions from "./components/Transactions.js"
 import Categories from "./components/Categories.js"
 import { useState, useEffect} from "react"
 import * as SQLite from "expo-sqlite";
+
 export default function App(props) {
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [categoryIsVisible, setCategoryIsVisible] = useState(false);
@@ -96,15 +97,13 @@ export default function App(props) {
   };
 
   function startTransactionHandler(){ // Opens the "Transactions" Page
-    setModalIsVisible(true);
-    
+    setModalIsVisible(true);  
   }
   function closeTransactionHandler(){ // Closes the "Transactions" Page
     setModalIsVisible(false);
   }
   function startCategoriesHandler(){ // Opens the "Categories" Page
-    setCategoryIsVisible(true);
-    
+    setCategoryIsVisible(true);   
   }
   function closeCategoriesHandler(){ // Closes the "Categories" Page
     setCategoryIsVisible(false);

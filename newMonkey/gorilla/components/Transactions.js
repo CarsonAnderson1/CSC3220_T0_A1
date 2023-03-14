@@ -2,6 +2,7 @@ import {StyleSheet, Text, View, Button, Modal, props, ScrollView} from 'react-na
 import {useState, useEffect} from "react"
 import CreateTransaction from './TransactionsCreate';
 import * as SQLite from "expo-sqlite";
+
 function Transactions(props){
   const [tranIsVisible, setTranIsVisible] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
@@ -53,7 +54,6 @@ function Transactions(props){
           <View key = {id} style={transtyles.column}> 
             <Text color = "white">Category: {cat}, Money: {money}, Date: {date}, Note: {note}</Text>
           </View>
-    
       );
     });
   };
@@ -95,20 +95,20 @@ function Transactions(props){
             onCancelT = {closeNewTransactionHandler}>
           </CreateTransaction>
           <View style = {transtyles.pageContainer}>
-            <View style = {transtyles.backButton}>
-            <Button 
-            title = "back" 
-            color = '#474745'
-            onPress = {props.onCancel}> 
-            </Button>
-            <Button 
-            title = "clear all" 
-            color = 'red'
-            onPress = {deleteTransactions}> 
-            </Button>
+            <View style = {transtyles.buttons}>
+              <Button 
+              title = "back" 
+              color = '#474745'
+              onPress = {props.onCancel}> 
+              </Button>
+              <Button 
+              title = "clear all" 
+              color = 'red'
+              onPress = {deleteTransactions}> 
+              </Button>
             </View>
               <View style = {transtyles.titleContainer}>
-                 <Text style = {transtyles.title} > SafeSpending </Text>
+                 <Text style = {transtyles.title} > Transactions </Text>
                   <View style = {transtyles.subTitleContainer}> 
                       <Text style = {transtyles.subtitleSizing}> $ </Text>
                       <Text style = {transtyles.subtitleSizing}> {showMoney()} </Text>
@@ -120,18 +120,15 @@ function Transactions(props){
                       onPress= {newCreateTransactionHandler}> </Button> 
                       </View>
                     </View>
-                    <View style={transtyles.scrollAdjusts}>
-                        <ScrollView style={transtyles.scrollView}>
-                          <View style = {transtyles.column}>
-                            <Text>Transaction History</Text>
-                            {showTransaction()}
-                          </View>
-                         </ScrollView>
-                      </View>
-              </View> 
+              </View>  
+              <View style={transtyles.transactionContainer}>
+                <ScrollView style={transtyles.scrollView}>
+                    <Text>Transaction History:</Text>
+                    {showTransaction()}
+                </ScrollView>
+              </View>
             </View>
-        </Modal>
-        
+        </Modal>  
     )
 };
 const transtyles = StyleSheet.create({
@@ -140,11 +137,11 @@ const transtyles = StyleSheet.create({
     flex: 1,
     },
     titleContainer: {
-        flex: 5,
-        flexDirection: 'column',
-        alignItems: 'center',
-        paddingTop: 50,
-        paddingHorizontal: 16,
+      flex: 2,
+      flexDirection: 'column',
+      alignItems: 'center',
+      paddingTop: 50,
+      paddingHorizontal: 16,
       },
     title:{
       fontSize: 45,
@@ -152,33 +149,24 @@ const transtyles = StyleSheet.create({
       color: 'white',
     },
     subTitleContainer:{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingTop: 15,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingTop: 15,
     },
     subtitleSizing:{
-        fontSize: 40,
-        fontWeight: 500,
-        color: 'white'
+      fontSize: 40,
+      fontWeight: 500,
+      color: 'white'
     },
-    backButton:{
-        alignItems: 'flex-start',
-        paddingTop: 35,
-        paddingLeft: 15,
+    buttons:{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingTop: 40,
     },
     addButton:{
-        alignItems: 'center',
-        paddingTop: 12,
-        paddingLeft: 10,
-    },
-    transactionContainer: {
-      flex: 1,
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 24,
-      borderBottomWidth: 1,
-      borderBottomColor: "#cccccc"
+      alignItems: 'center',
+      paddingTop: 5,
+      paddingLeft: 10,
     },
     textInput: {
       borderWidth: 1,
@@ -188,13 +176,16 @@ const transtyles = StyleSheet.create({
       padding: 8
     },
     transactionContainer: {
-      flex: 5
+      flex: 5,
+      alignItems: 'stretch',
+      paddingBottom: 100,
     },
     scrollView: {
       backgroundColor: '#3a3d3a',
       marginHorizontal: 20,
       borderColor: 'black',
       borderWidth: 3,
+      alignContent: 'center'
     },
   });
   
