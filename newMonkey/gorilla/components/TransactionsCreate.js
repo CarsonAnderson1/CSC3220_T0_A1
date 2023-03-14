@@ -46,7 +46,7 @@ function CreateTransaction(props){
     });
     setDataLoading(false);
      
-  }, []);
+  }, [name, setName], [money, setMoney]);
   
   if (dataLoading) {
     return (
