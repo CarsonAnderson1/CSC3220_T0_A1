@@ -6,7 +6,6 @@ function AddCategory(props){
   const [dataLoading, setDataLoading] = useState(true);
   const [name, setName] = useState([]); // array that holds name list
   const [currName, setCurrName] = useState(undefined); // for text input box
-  const reload=()=>window.location.reload();
 
   const db = SQLite.openDatabase("categories.db"); 
 
@@ -51,7 +50,7 @@ function AddCategory(props){
           existingName.push({ id: resultSet.insertId, name: currName, money: 0});
           setName(existingName);
         })
-    }, reload);
+    });
   }
 
   const showCategories = () => {
