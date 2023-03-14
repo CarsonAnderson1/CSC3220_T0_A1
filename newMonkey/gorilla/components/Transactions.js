@@ -31,7 +31,7 @@ function Transactions(props){
     });
     setDataLoading(false);
      
-  }, []);
+  }, [tranIsVisible, setTranIsVisible]);
 
   
   if (dataLoading) {

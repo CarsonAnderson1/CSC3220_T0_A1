@@ -54,7 +54,7 @@ export default function App(props) {
     });
     setDataLoading(false);
      
-  }, []);
+  }, [categoryIsVisible, setCategoryIsVisible], [transaction, setTransaction]);
   
   if (dataLoading) {
     return (
