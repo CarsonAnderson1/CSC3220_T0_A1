@@ -92,7 +92,6 @@ function AddCategory(props){
             value = {currName}
             style = {styles.textInput}
             placeholder = "ex. groceries"
-            placeholderTextColor={"white"}
             onChangeText = {setCurrName}
           />
         </View>

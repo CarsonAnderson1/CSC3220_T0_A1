@@ -99,14 +99,12 @@ function Transactions(props){
               <Button 
               title = "Back" 
               color = '#474745'
-              onPress = {props.onCancel}
-              style={{paddingLeft: 10}}> 
+              onPress = {props.onCancel}> 
               </Button>
               <Button 
               title = "Clear All" 
               color = 'red'
-              onPress = {deleteTransactions}
-              style={{paddingRight: 10}}> 
+              onPress = {deleteTransactions}> 
               </Button>
             </View>
               <View style = {transtyles.titleContainer}>
