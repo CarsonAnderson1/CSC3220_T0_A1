@@ -80,12 +80,6 @@ export default function App(props) {
     return transaction.map(({cat, money}) => {
       db.transaction(tx => {
         tx.executeSql("UPDATE categories SET money = ? WHERE name = ?", [money, cat])
-        tx.executeSql("SELECT * from transactions", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows)),
-        );
-        tx.executeSql("SELECT * from categories", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows)),
-        );
       })
   
     });
